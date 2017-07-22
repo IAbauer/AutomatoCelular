@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
         individuo **matriz;
         matriz= AlocMat(10, 10);
         //FreeMat(linhas, colunas, matriz);
-        /* Ta Bugando a fodeno alocacao de memoria
+        // Ta Bugando a fodeno alocacao de memoria
     	for (x = 0 ; x < 10 ; x++){
             for (y = 0 ; y < 10 ; y++){
                  matriz[x][y].valor =1;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
                  printf("\n valor do vizinho %i =%p\n",x,&matriz[x][y].vizinhos[x]);
               }
            }
-        */
+        
         ////OPENGL FUNCS
         iniciPMatriz(n);
         glutInit( &argc, argv );

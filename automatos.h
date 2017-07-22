@@ -8,7 +8,7 @@ individuo **AlocMat(int linhas, int colunas){
    individuo **mat;
    // aloca espaço para as linhas, que será vetores para vetores, por
    // isso é necessário a conversão (int **).
-   mat = (individuo **)calloc(linhas, sizeof(individuo));
+   mat = (individuo **)calloc(linhas, sizeof(individuo*));
    // checa se as linhas foram alocadas corretamente e caso não trenham
    // sido, aborta a execução do programa.
    if (mat == NULL) {
