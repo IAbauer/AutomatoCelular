@@ -9,13 +9,12 @@
 #include <time.h>
 
 
-struct individuo{
+typedef struct Individuo{
 	float valor;
 	int vizinhos[8];
-    struct individuo *vizinhosVal[8];
+    int vizinhosVal[8];
 
-};
-typedef struct individuo individuo;
+}individuo;
 
 int x,y;
 char ruim[]="RUIM";

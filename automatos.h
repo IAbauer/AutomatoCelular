@@ -33,7 +33,7 @@ void armazenaVizinhos(individuo **ma){
 			for(k = 0; k< NUM_VIZINHOS; k++){
 				for(l = i-1;l<i+1;l++){
 					for(m = j-1;m<j+1;m++){
-						ma[i][j].vizinhosVal[k].valor = ma[l][m].valor;
+						ma[i][j].vizinhosVal[k] = ma[l][m].valor;
 					}
 				}
 			}
@@ -57,13 +57,13 @@ void armazenaVizinhos(individuo **ma){
 			bom = 0;
 			ruim = 0;
 			for(k = 0; k< NUM_VIZINHOS; k++){
-				if(ma[i][j].vizinhos[k].valor == 1){
+				if(ma[i][j].vizinhos[k] == 1){
 					ativos++;
 					//Se vizinho for bom incrementa a var bom
-					if(ma[i][j].vizinhosVal[k].valor == 2) bom++;
+					if(ma[i][j].vizinhosVal[k] == 2) bom++;
 
 					//Se vizinho for ruim incrementa a var ruim
-					if(ma[i][j].vizinhosVal[k].valor == 0) ruim++;
+					if(ma[i][j].vizinhosVal[k] == 0) ruim++;
 				}
 			}
 
