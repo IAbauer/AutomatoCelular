@@ -10,6 +10,11 @@
 
 
 
+typedef struct{
+	float valor;
+	int vizinhos[8];
+
+}individuo;
 
 
 int x,y;
@@ -23,7 +28,7 @@ char by[]="Desenvolvido por Gabriel Moura & Thaylo Guizani";
 int ma[10][10];
 int n;
 
-
+//indiviuo populacao[10][10];
 
 
 
@@ -36,3 +41,5 @@ void DesenhaTextoStroke(void *font, char *string);
 void escreveTitulo(void);
 void iniciPMatriz(int n);
 void drawFinalM (void);
+int **FreeMat(int linhas, int colunas, int **mat);
+individuo **AlocMat(int linhas, int colunas);
