@@ -13,8 +13,8 @@ void display()
 
 	glClear( GL_COLOR_BUFFER_BIT );
  	escreveTitulo();
- 	drawFirstM(matriz);
- 	drawFinalM(matriz);
+ 	drawFirstM(ma);
+ 	drawFinalM(ma);
  	//glPushMatrix();
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);

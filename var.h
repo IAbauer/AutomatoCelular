@@ -26,7 +26,7 @@ char final[]="POPULACAO FINAL";
 char titulo[]="Simulador de populacao";
 char by[]="Desenvolvido por Gabriel Moura & Thaylo Guizani";
 int n;
-individuo **matriz;
+individuo **ma;
 //indiviuo populacao[10][10];
 
 

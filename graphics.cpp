@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 		printf("\nInsira a porcentagem de inimigos bons inicial!\n");
     	scanf("%i",&n);
         //matriz= AlocMat(10, 10);
-        matriz = iniciPMatriz(n);
+        ma = iniciPMatriz(n);
         //FreeMat(linhas, colunas, matriz);
     	/*for (int i = 0 ; i < 10 ; i++){
             for (int j = 0 ; j < 10 ; j++){
