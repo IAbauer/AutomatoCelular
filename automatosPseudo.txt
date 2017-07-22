@@ -23,7 +23,7 @@ Percorre cada individuo
 //for()
 //	for()
 
-Para cada individuo, iremos percorrer cada vizinho e ve se ele estah "ativo"
+Para cada individuo, iremos percorrer cada vizinho e ve se ele esta "ativo"
 //for()
 //	se ativo :
 

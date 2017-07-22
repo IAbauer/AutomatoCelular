@@ -9,13 +9,13 @@
 #include <time.h>
 
 
-typedef struct{
+struct individuo{
 	float valor;
 	int vizinhos[8];
-	individuo vizinhosVal[8];
+    struct individuo *vizinhosVal[8];
 
-}individuo;
-
+};
+typedef struct individuo individuo;
 
 int x,y;
 char ruim[]="RUIM";
@@ -35,7 +35,7 @@ individuo **maAux;
 individuo **maInicial;
 //indiviuo populacao[10][10];
 
-//Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, jah que a matriz h sempre quadrada
+//Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
 #define TAM_MATRIZ 10
 
 #define NUM_VIZINHOS 8
@@ -53,3 +53,5 @@ void drawFinalM (individuo **mat);
 int **FreeMat(int **mat);
 individuo **AlocMat();
 void drawFirstM (individuo **mat);
+void calculaInfluencia(individuo **ma, individuo **maAux);
+void armazenaVizinhos(individuo **ma);
