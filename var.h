@@ -25,9 +25,8 @@ char ini[]="POPULACAO INICIAL";
 char final[]="POPULACAO FINAL";
 char titulo[]="Simulador de populacao";
 char by[]="Desenvolvido por Gabriel Moura & Thaylo Guizani";
-int ma[10][10];
 int n;
-
+individuo **matriz;
 //indiviuo populacao[10][10];
 
 
@@ -35,11 +34,12 @@ int n;
 void init();
 void display();
 void drawQuads(float r,float g, float b);
-void drawFirstM (void);
+void drawFirstM (individuo **mat);
 void desenhaCirculo(GLint x, GLint y, int linhas, int raio, float r, float g, float b);
 void DesenhaTextoStroke(void *font, char *string);
 void escreveTitulo(void);
-void iniciPMatriz(int n);
-void drawFinalM (void);
+individuo **iniciPMatriz(int n);
+void drawFinalM (individuo **mat);
 int **FreeMat(int linhas, int colunas, int **mat);
 individuo **AlocMat(int linhas, int colunas);
+void drawFirstM (individuo **mat);

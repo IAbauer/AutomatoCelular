@@ -6,27 +6,25 @@ int main(int argc, char *argv[])
 		 srand(time(NULL));
 		printf("\nInsira a porcentagem de inimigos bons inicial!\n");
     	scanf("%i",&n);
-
-        individuo **matriz;
-        matriz= AlocMat(10, 10);
+        //matriz= AlocMat(10, 10);
+        matriz = iniciPMatriz(n);
         //FreeMat(linhas, colunas, matriz);
-        // Ta Bugando a fodeno alocacao de memoria
-    	for (x = 0 ; x < 10 ; x++){
-            for (y = 0 ; y < 10 ; y++){
-                 matriz[x][y].valor =1;
-                 matriz[x][y].vizinhos[x]=1;
+    	/*for (int i = 0 ; i < 10 ; i++){
+            for (int j = 0 ; j < 10 ; j++){
+                 matriz[i][j].valor =1;
+                 for(int k=0;k<8;k++)
+                 	matriz[i][j].vizinhos[k]=0;
             }
         }
-
-        for (x=0;x<10;x++){
-              for (y=0;y<10;y++){
-                 printf("\n valor do individuo =%p\n",&matriz[x][y].valor);
-                 printf("\n valor do vizinho %i =%p\n",x,&matriz[x][y].vizinhos[x]);
-              }
-           }
-        
+         for (int i = 0 ; i < 10 ; i++) {
+      			for (int j = 0 ; j < 10 ; j++) {
+         			printf("valor do indiviuo = %f\n",matriz[i][j].valor);
+         			for(int k=0;k<8;k++)
+         				printf("\n valor do vizinho %i =%i\n",i,matriz[i][j].vizinhos[k]);
+      			}
+   		}*/
         ////OPENGL FUNCS
-        iniciPMatriz(n);
+        
         glutInit( &argc, argv );
     	glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
     	glutInitWindowSize( 500, 500 );

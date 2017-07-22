@@ -13,8 +13,8 @@ void display()
 
 	glClear( GL_COLOR_BUFFER_BIT );
  	escreveTitulo();
- 	drawFirstM();
- 	drawFinalM();
+ 	drawFirstM(matriz);
+ 	drawFinalM(matriz);
  	//glPushMatrix();
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);
@@ -102,12 +102,14 @@ void DesenhaTextoStroke(void *font, char *string)
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,*string++); 
 }
 
-void iniciPMatriz(int n){
+individuo **iniciPMatriz(int n){
 	int i,j,r1,r2,r3,k,flag=0;
 	float percent=0;
+	individuo **ma;
+    ma= AlocMat(10, 10);
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)
-			ma[i][j]=-1;
+			ma[i][j].valor=-1;
 
 	for(i=0;i<10;i++){
 		percent=(10*(n/100));
@@ -117,8 +119,8 @@ void iniciPMatriz(int n){
 				do{
 					r1=rand()%10;
 					r2=rand()%10;
-				}while(ma[r1][r2]!=-1);
-				ma[r1][r2]=2;	
+				}while(ma[r1][r2].valor!=-1);
+				ma[r1][r2].valor=2;	
 				}
 				flag=1;
 			}else
@@ -126,35 +128,36 @@ void iniciPMatriz(int n){
 					do{
 						r1=rand()%10;
 						r2=rand()%10;
-					}while(ma[r1][r2]!=-1);
-					ma[r1][r2]=2;
+					}while(ma[r1][r2].valor!=-1);
+					ma[r1][r2].valor=2;
 				}
 		}
 		n-=1;
 	}
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)		
-				if(ma[i][j]==-1){
+				if(ma[i][j].valor==-1){
 					r3=rand()%2;
 					if(r3==0)
-						ma[i][j]=1;
+						ma[i][j].valor=1;
 					else if(r3==1)
-						ma[i][j]=0;	
+						ma[i][j].valor=0;	
 				}
+return ma;
 }
 
 //cidadao bom =2 cidadao ruim =0 cidadao influenciavel =1
-void drawFirstM (void){
+void drawFirstM (individuo **ma){
 	int i,j,posx=22,posy=100,random=0;
     for(i=0;i<10;i++){
     	posy+=18;
     	for(j=0;j<10;j++){
     			posx+=18;
-    			if(ma[i][j]==2)
+    			if(ma[i][j].valor==2)
     				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
-    			else if(ma[i][j]==0)
+    			else if(ma[i][j].valor==0)
     				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
-    			else if(ma[i][j]==1)
+    			else if(ma[i][j].valor==1)
     				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
     	}
@@ -162,17 +165,17 @@ void drawFirstM (void){
     }		
 }
 
-void drawFinalM (void){
+void drawFinalM (individuo **ma){
 	int i,j,posx=270,posy=100,random=0;
     for(i=0;i<10;i++){
     	posy+=18;
     	for(j=0;j<10;j++){
     			posx+=18;
-    			if(ma[i][j]==2)
+    			if(ma[i][j].valor==2)
     				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
-    			else if(ma[i][j]==0)
+    			else if(ma[i][j].valor==0)
     				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
-    			else if(ma[i][j]==1)
+    			else if(ma[i][j].valor==1)
     				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
     	}
