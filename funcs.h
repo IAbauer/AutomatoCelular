@@ -23,6 +23,7 @@ void display()
 
     glFlush();
 }
+//Funcao utilizada para escrever tudo que se encontra no console
 void escreveTitulo(void){
 	glPushMatrix();	
 		glColor3f(1,1,1);
@@ -101,30 +102,37 @@ void DesenhaTextoStroke(void *font, char *string)
 	while(*string)
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,*string++); 
 }
-
+//onde a matriz inicial é feita atravez do "random", o parametro N é a porcentagem de inimigos bons na populacao
 individuo **iniciPMatriz(int n){
 	int i,j,r1,r2,r3,k,flag=0;
 	float percent=0;
 	individuo **ma;
     ma= AlocMat(10, 10);
+    //seta todos os individuos como -1
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)
 			ma[i][j].valor=-1;
 
 	for(i=0;i<10;i++){
+		//calcula a quantidade de individuos "bom" na matriz atravez da porcentagem
 		percent=(10*(n/100));
 		for(j=0;j<10;j++){
+			//bug da comparacao de int/float, fiz a gamb pra quando a porcentagem for entre 0 e 1
 			if(percent<1&&flag==0){
 				for(k=0;k<n;k++){
+				//joga os individuos "bom" em posicoes aleatorias na matriz, desde que tenha -1 la, ou seja,vazi0
 				do{
 					r1=rand()%10;
 					r2=rand()%10;
 				}while(ma[r1][r2].valor!=-1);
 				ma[r1][r2].valor=2;	
 				}
+				//flag pra n deixar entrar aqui infinito
 				flag=1;
 			}else
+				//todos os outros casos normais
 				if(i<percent){
+					//joga os individuos "bom" em posicoes aleatorias na matriz, desde que tenha -1 la, ou seja,vazi0
 					do{
 						r1=rand()%10;
 						r2=rand()%10;
@@ -132,8 +140,10 @@ individuo **iniciPMatriz(int n){
 					ma[r1][r2].valor=2;
 				}
 		}
+		//le wild gamb pra valores de % entre 0 e 10, tipo um 99=90+9;
 		n-=1;
 	}
+	// dps de ter colocado a % certa de individuos bons, é so jogar o que sobrou nas posicoes vazias
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)		
 				if(ma[i][j].valor==-1){
@@ -143,6 +153,7 @@ individuo **iniciPMatriz(int n){
 					else if(r3==1)
 						ma[i][j].valor=0;	
 				}
+//retorna a matriz, como eu setei ela global, nem sei se precisa, mas é nois
 return ma;
 }
 
@@ -164,7 +175,8 @@ void drawFirstM (individuo **ma){
     	posx=22;
     }		
 }
-
+// por enquanto essa aqui ta igual a inicial, mas a ideia é fazer a a evolucao da populacao nessa, e deixar a outra
+// como comparacao.
 void drawFinalM (individuo **ma){
 	int i,j,posx=270,posy=100,random=0;
     for(i=0;i<10;i++){
