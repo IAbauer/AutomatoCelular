@@ -107,7 +107,7 @@ individuo **iniciPMatriz(int n){
 	int i,j,r1,r2,r3,k,flag=0;
 	float percent=0;
 	individuo **ma;
-    ma= AlocMat(10, 10);
+    ma= AlocMat();
     //seta todos os individuos como -1
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)
