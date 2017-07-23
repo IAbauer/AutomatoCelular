@@ -1,0 +1,40 @@
+
+Funcao para guardar os valores dos vizinhos
+
+Percorre cada individuo
+//for(i<tamMatriz)
+//	for(j<tamMatriz)
+
+Percorre todos os vizinhos guardando o valor
+//for(k<numVizinhos)
+//	for(l = i-1;l<i+1)
+//		for(m = j-1;m<j+1)
+//			ma.individuo[i][j].vizinhosVal[k].valor = ma.individuo[l][m].valor
+
+-Funcao para calcular o valor de um individuo apos uma iteracao
+
+Criar variaveis auxiliares para o controle dos vizinhos
+//bom
+//ruim
+//infl
+//qtdVizinhosAtivos
+
+Percorre cada individuo
+//for()
+//	for()
+
+Para cada individuo, iremos percorrer cada vizinho e ve se ele esta "ativo"
+//for()
+//	se ativo :
+
+Se estiver ativo, incrementar a quantidade de ativos, e a variavel referente ao valor do vizinho
+//qtdVizinhosAtivos++
+//se 2 : bom++
+//se 1 : inf++
+//se 0 : ruim++
+
+Por fim ver qual variavel possui maior valor e checar se corresponde a 50% dos vizinhos ativos
+//se bom for maior que inf e ruim:
+//	se bom for maior que qtdVizinhosAtivos2
+//		individuo se torna bom
+

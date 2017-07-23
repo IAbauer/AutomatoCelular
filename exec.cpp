@@ -1,22 +1,39 @@
 #include "var.h"
 #include "funcs.h"
+#include "alocacao.h"
 #include "automatos.h"
+
 int main(int argc, char *argv[])
 {		
-		 srand(time(NULL));
+		srand(time(NULL));
+        //Alocacao das Matrizes
+        ma = AlocMat();
+        maAux  = AlocMat();
+        maInicial=AlocMat();
+
+        //Obter a % de individuos bons
 		printf("\nInsira a porcentagem de inimigos bons inicial!\n");
     	scanf("%i",&n);
+
         //matriz= AlocMat(10, 10);
+        //Inicializar a matriz principal
         ma = iniciPMatriz(n);
+
+        copiaMatriz();
+        //Essa eh a matriz inicial do problema, ela nunca serah mudada
+        //memcpy ( maInicial , ma , sizeof ( **ma ) );
+        //memcpy(destino,origem,tamanho)
+        //maInicial = ma;
+        executaAlgortimo();
         //FreeMat(linhas, colunas, matriz);
     	/*for (int i = 0 ; i < 10 ; i++){
             for (int j = 0 ; j < 10 ; j++){
-                 matriz[i][j].valor =1;
-                 for(int k=0;k<8;k++)
-                 	matriz[i][j].vizinhos[k]=0;
+                 ma[i][j].valor =1;
+                 //for(int k=0;k<8;k++)
+                 	//ma[i][j].valor=1;
             }
-        }
-         for (int i = 0 ; i < 10 ; i++) {
+        }*/
+        /* for (int i = 0 ; i < 10 ; i++) {
       			for (int j = 0 ; j < 10 ; j++) {
          			printf("valor do indiviuo = %f\n",matriz[i][j].valor);
          			for(int k=0;k<8;k++)

@@ -1,54 +1,149 @@
 
+//Exemplo Rotina
+void executaAlgortimo(){
 
-individuo **AlocMat(int linhas, int colunas){
-	// declara a variável 'i' que servirá como contador, e um ponteiro
-   // para ponteiros '**v' que receberá a matriz alocada e será o
-   // valor de retorno da função.
-   int i; 
-   individuo **mat;
-   // aloca espaço para as linhas, que será vetores para vetores, por
-   // isso é necessário a conversão (int **).
-   mat = (individuo **)calloc(linhas, sizeof(individuo*));
-   // checa se as linhas foram alocadas corretamente e caso não trenham
-   // sido, aborta a eiecução do programa.
-   if (mat == NULL) {
-      printf("\nFatal Error! (function: AlocMat)\n");
-      exit(1);
-   }
-   // percorre as linhas alocadas na matriz
-   for (i = 0 ; i < linhas ; i++) {
-      // em cada linha, aloca um vetor/ponteiro para inteiros
-      // com tamanho definido pelo usuário
-      mat[i] = (individuo *)calloc(colunas, sizeof(individuo));
-      // checa se o vetor/ponteiro foi alocado corretamente, caso não
-      // tenha sido, aborta a eiecução do programa
-      if (mat[i] == NULL) {
-         printf("\nFatal Error! (function: AlocMat)\n");
-         exit(1);
-      }
-   }
-   // retorna o ponteiro de ponteiros(matriz).
-   return mat;
+	int i;
+
+	//Inicia Algoritimo
+	for(i = 0; i<NUM_ITERACOES; i++){
+
+		//Atribuir os vizinhos
+		armazenaVizinhos();
+		//Definir ativacao dos vizinhos (AG)
+		//???
+		ativacaoTeste();
+
+		//Calcular a Influencia
+		calculaInfluencia();
+
+		//Atribuir a matriz resultado para a matriz principal
+		copiaAuxFinal();
+		//memcpy ( ma , maAux , sizeof ( ma ) );
+	}
 }
 
+void ativacaoTeste(){
+		int i,j,k,random,flag=0;
+				
+		for(i=0;i<TAM_MATRIZ;i++){
+			for(j=0;j<TAM_MATRIZ;j++){
+				for(k = 0; k< NUM_VIZINHOS; k++) ma[i][j].vizinhos[k] = rand()%2;
+				/*		
+				if(flag<3){
+					//do{
+						random=rand()%8;
+					//}while(ma[i][j].vizinhosVal[random]!=0);
+					flag++;
+					ma[i][j].vizinhos[random]=1;
+				
+				}
+				*/
+			}
+		}
+		/*
+		for ( i = 0 ; i < TAM_MATRIZ ; i++) {
+      			for (j = 0 ; j < TAM_MATRIZ ; j++) {
+         			//printf("valor do indiviuo = %f\n",matriz[i][j].valor);
+         			for(int k=0;k<8;k++){
+         				if(ma[i][j].vizinhosVal[k]!=0)
+         					printf("\n individuo %i tem valor de vizinho %i =%i\n",j,k,ma[i][j].vizinhosVal[k]);
+         			}
+         		}
+      	}
+  		*/
+}
 
-int **FreeMat(int linhas, int colunas, int **mat) {
-   // variável 'i' que servirá como contador.
-   int i;
-   // checa se os argumentos passados são válidos e caso não sejam,
-   // a eiecução do programa é abortada.
-   if ((linhas < 1) || (colunas < 1)) {
-      printf("\nFatal Error! (function: FreeMat)\n");
-      exit(1);
-   }
-   // se a matriz passada como parâmetro for NULL, então a função
-   // retorna NULL.
-   if (mat == NULL) return NULL;
-   // percorre as linhas da matriz, liberando o espaço das 
-   // colunas(vetores/ponteiros) em cada linha.
-   for (i = 0 ; i < linhas ; i++) free(mat[i]);
-   // libera a matriz em si.
-   free(mat);
-   // retorna NULL.
-   return NULL;   
+//Funciona LISO
+void armazenaVizinhos(){
+	int i,j,k,l,c,n;
+
+	//Percorre cada individuo
+	for(i = 0; i < TAM_MATRIZ; i++){
+		for(j = 0; j < TAM_MATRIZ; j++){
+
+			//Inicia todos com -1
+			for(k = 0; k< NUM_VIZINHOS; k++) ma[i][j].vizinhosVal[k] = -1;
+			n = 0;
+
+			//Percorre todos os vizinhos
+			for(l = i-1;l<i+2;l++){
+				for(c = j-1;c<j+2;c++){
+
+					//Tratamento das bordas
+					if((l>=0 && l<TAM_MATRIZ) && (c>=0  && c <TAM_MATRIZ)){
+
+						//Ignora o proprio individuo
+						if(!(l==i && c==j)){
+
+							//Atribui o valor do vizinho
+							ma[i][j].vizinhosVal[n] = ma[l][c].valor;
+							//printf("individuo [%d][%d]: valorVizinho[%d](%d,%d):%d\n",i,j,n,l,c,ma[i][j].vizinhosVal[n]);
+							n++;
+						}
+					}
+
+				}
+
+			}
+			
+		}
+	}
+	
+}
+
+//Funciona LISO
+void calculaInfluencia(){
+	int i,j,k;
+
+	//Variaveis para controlar a quantidade de cada tipo de vizinho
+	int bom, ruim;
+	//Guarda o numero de vizinhos ativos de cada individuo
+	int ativos;
+	for(i = 0; i < TAM_MATRIZ; i++){
+		for(j = 0; j < TAM_MATRIZ; j++){
+			ativos = 0;
+			bom = 0;
+			ruim = 0;
+			for(k = 0; k< NUM_VIZINHOS; k++){
+				if(ma[i][j].vizinhosVal[k] != -1){
+					if(ma[i][j].vizinhos[k] == 1){
+
+						ativos++;
+						//Se vizinho for bom incrementa a var bom
+						if(ma[i][j].vizinhosVal[k] == 2) bom++;
+
+						//Se vizinho for ruim incrementa a var ruim
+						if(ma[i][j].vizinhosVal[k] == 0) ruim++;
+					}
+				}
+			}
+			
+			//Calcular o novo valor do individuo na matriz auxiliar
+
+			//Se a maiora é bom e correponde a mais que 50% dos vizinhos ativos
+			if(bom > ruim && bom >= int(ativos/2)){
+
+				//Se o individuo era ruim, vira influenciavel
+				if(ma[i][j].valor == 0) maAux[i][j].valor = 1;
+
+				//Se o individuo era influenciavel, vira bom
+				else if(ma[i][j].valor == 1) maAux[i][j].valor = 2;
+				else maAux[i][j].valor = ma[i][j].valor;
+			}
+
+			//Se a maiora é ruim e correponde a mais que 50% dos vizinhos ativos
+			else if(ruim > bom && ruim >= int(ativos/2)){
+
+				//Se o individuo era bom, vira influenciavel
+				if(ma[i][j].valor == 2) maAux[i][j].valor = 1;
+
+				//Se o individuo era influenciavel, vira ruim
+				else if(ma[i][j].valor == 1) maAux[i][j].valor = 0;
+				else maAux[i][j].valor = ma[i][j].valor;
+
+			}
+			else maAux[i][j].valor = ma[i][j].valor;
+
+		}
+	}	
 }
