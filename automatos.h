@@ -5,8 +5,7 @@ void executaAlgortimo(){
 	int i;
 
 	//Inicia Algoritimo
-	for(i = 0; i<NUM_ITERACOES; i++){
-
+	for(i = 0; i<1;i++){
 		//Atribuir os vizinhos
 		armazenaVizinhos();
 		//Definir ativacao dos vizinhos (AG)
@@ -19,6 +18,9 @@ void executaAlgortimo(){
 		//Atribuir a matriz resultado para a matriz principal
 		copiaAuxFinal();
 		//memcpy ( ma , maAux , sizeof ( ma ) );
+		glutPostRedisplay();
+		
+	
 	}
 }
 

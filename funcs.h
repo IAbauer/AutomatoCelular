@@ -15,6 +15,11 @@ void display()
  	escreveTitulo();
  	drawFirstM();
  	drawFinalM();
+ 	//if(teclas['a']==true)
+ 	if(iter<NUM_ITERACOES){
+ 		executaAlgortimo();
+ 		iter++;
+ 	}
  	//glPushMatrix();
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);
@@ -23,6 +28,16 @@ void display()
 
     glFlush();
 }
+
+void keyPressed (unsigned char key, int x, int y) {
+    teclas[key] = true; // altera pra true a posicao da tecla pressionada
+    }
+void keyUp (unsigned char key, int x, int y){
+    teclas[key] = false;// altera pra false a posicao da tecla pressionada
+
+}
+void keyOperations(){}
+
 //Funcao utilizada para escrever tudo que se encontra no console
 void escreveTitulo(void){
 	glPushMatrix();	
@@ -145,10 +160,10 @@ individuo **iniciPMatriz(int n){
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)		
 				if(ma[i][j].valor==-1){
-					r3=rand()%2;
-					if(r3==0)
-						ma[i][j].valor=1;
-					else if(r3==1)
+					//r3=rand()%2;
+					//if(r3==0)
+						//ma[i][j].valor=1;
+					//else if(r3==1)
 						ma[i][j].valor=0;	
 				}
 //retorna a matriz, como eu setei ela global, nem sei se precisa, mas é nois

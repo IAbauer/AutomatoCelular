@@ -6,25 +6,32 @@
 int main(int argc, char *argv[])
 {		
 		srand(time(NULL));
+
         //Alocacao das Matrizes
-        ma = AlocMat();
-        maAux  = AlocMat();
-        maInicial=AlocMat();
+    ma = AlocMat();
+    maAux  = AlocMat();
+    maInicial=AlocMat();
 
-        //Obter a % de individuos bons
-		printf("\nInsira a porcentagem de inimigos bons inicial!\n");
-    	scanf("%i",&n);
+    //Obter a % de individuos bons
+    printf("\nInsira a porcentagem de inimigos bons inicial!\n");
+    scanf("%i",&n);
 
-        //matriz= AlocMat(10, 10);
-        //Inicializar a matriz principal
-        ma = iniciPMatriz(n);
+    //matriz= AlocMat(10, 10);
+    //Inicializar a matriz principal
+    ma = iniciPMatriz(n);
 
-        copiaMatriz();
-        //Essa eh a matriz inicial do problema, ela nunca serah mudada
-        //memcpy ( maInicial , ma , sizeof ( **ma ) );
-        //memcpy(destino,origem,tamanho)
-        //maInicial = ma;
-        executaAlgortimo();
+    copiaMatriz();
+    glutInit( &argc, argv );
+    glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
+    glutInitWindowSize( 500, 500 );
+    glutInitWindowPosition( 70, 75 );
+    glutCreateWindow("Simulador de populacao IA 2017/2");
+    init();
+    //Essa eh a matriz inicial do problema, ela nunca serah mudada
+    //memcpy ( maInicial , ma , sizeof ( **ma ) );
+    //memcpy(destino,origem,tamanho)
+    //maInicial = ma;
+    //executaAlgortimo();
         //FreeMat(linhas, colunas, matriz);
     	/*for (int i = 0 ; i < 10 ; i++){
             for (int j = 0 ; j < 10 ; j++){
@@ -42,13 +49,10 @@ int main(int argc, char *argv[])
    		}*/
         ////OPENGL FUNCS
         
-        glutInit( &argc, argv );
-    	glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
-    	glutInitWindowSize( 500, 500 );
-    	glutInitWindowPosition( 70, 75 );
-    	glutCreateWindow("Simulador de populacao IA 2017/2");
-    	init();
+      
     	glutDisplayFunc( display );
+      glutKeyboardFunc(keyPressed);
+      glutKeyboardUpFunc(keyUp);
     	glutMainLoop();
     	return 0;
 }

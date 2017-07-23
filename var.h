@@ -17,7 +17,7 @@ typedef struct Individuo{
 
 }individuo;
 
-int x,y;
+//int x,y;
 char ruim[]="RUIM";
 char influ[]="INFLUENCIAVEL";
 char bom[]="BOM";
@@ -26,6 +26,7 @@ char final[]="POPULACAO FINAL";
 char titulo[]="Simulador de populacao";
 char by[]="Desenvolvido por Gabriel Moura & Thaylo Guizani";
 int n;
+bool teclas[256];
 
 //Matrizes para realizar as iterações, sugiro que nao sejam globais
 individuo **ma;
@@ -40,7 +41,7 @@ individuo **maInicial;
 #define TAM_MATRIZ 10
 #define NUM_VIZINHOS 8
 #define NUM_ITERACOES 50
-
+int iter=0;
 void init();
 void display();
 void drawQuads(float r,float g, float b);
@@ -58,3 +59,7 @@ void armazenaVizinhos(void);
 void ativacaoTeste(void);
 void copiaMatriz(void);
 void copiaAuxFinal(void);
+void keyPressed (unsigned char key, int x, int y);
+void keyUp (unsigned char key, int x, int y);
+void keyOperations(void);
+void executaAlgortimo(void);
