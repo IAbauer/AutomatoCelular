@@ -10,12 +10,15 @@ int main(int argc, char *argv[])
         ma = AlocMat();
         maAux  = AlocMat();
         maInicial=AlocMat();
+
         //Obter a % de individuos bons
 		printf("\nInsira a porcentagem de inimigos bons inicial!\n");
     	scanf("%i",&n);
+
         //matriz= AlocMat(10, 10);
         //Inicializar a matriz principal
         ma = iniciPMatriz(n);
+
         copiaMatriz();
         //Essa eh a matriz inicial do problema, ela nunca serah mudada
         //memcpy ( maInicial , ma , sizeof ( **ma ) );

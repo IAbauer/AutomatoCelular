@@ -181,11 +181,11 @@ void drawFinalM (void){
     	posy+=18;
     	for(j=0;j<10;j++){
     			posx+=18;
-    			if(ma[i][j].valor==2)
+    			if(maAux[i][j].valor==2)
     				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
-    			else if(ma[i][j].valor==0)
+    			else if(maAux[i][j].valor==0)
     				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
-    			else if(ma[i][j].valor==1)
+    			else if(maAux[i][j].valor==1)
     				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
     	}
