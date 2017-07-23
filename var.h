@@ -1,5 +1,6 @@
 #include <GL/glut.h>
 #include <string>
+#include <string.h>
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
@@ -32,13 +33,13 @@ individuo **maAux;
 
 //Matriz Original que será mostrada graficamente no OpenGL, deixar apenas essa ser global (e futuramente a maFinal)
 individuo **maInicial;
+
 //indiviuo populacao[10][10];
 
 //Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
 #define TAM_MATRIZ 10
-
 #define NUM_VIZINHOS 8
-#define NUM_ITERACOES 20
+#define NUM_ITERACOES 50
 
 void init();
 void display();
@@ -48,9 +49,12 @@ void desenhaCirculo(GLint x, GLint y, int linhas, int raio, float r, float g, fl
 void DesenhaTextoStroke(void *font, char *string);
 void escreveTitulo(void);
 individuo **iniciPMatriz(int n);
-void drawFinalM (individuo **mat);
+void drawFinalM (void);
 int **FreeMat(int **mat);
 individuo **AlocMat();
-void drawFirstM (individuo **mat);
-void calculaInfluencia(individuo **ma, individuo **maAux);
-void armazenaVizinhos(individuo **ma);
+void drawFirstM (void);
+void calculaInfluencia(void); 
+void armazenaVizinhos(void);
+void ativacaoTeste(void);
+void copiaMatriz(void);
+void copiaAuxFinal(void);

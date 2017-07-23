@@ -1,6 +1,6 @@
 
 //Exemplo Rotina
-void executaAlgortimo(individuo **ma, individuo **maAux){
+void executaAlgortimo(){
 
 	int i;
 
@@ -8,22 +8,48 @@ void executaAlgortimo(individuo **ma, individuo **maAux){
 	for(i = 0; i<NUM_ITERACOES; i++){
 
 		//Atribuir os vizinhos
-		armazenaVizinhos(ma);
+		//armazenaVizinhos();
 
 		//Definir ativacao dos vizinhos (AG)
 		//???
+		ativacaoTeste();
 
 		//Calcular a Influencia
-		calculaInfluencia(ma,maAux);
+		calculaInfluencia();
 
 		//Atribuir a matriz resultado para a matriz principal
-		ma = maAux;
+		copiaAuxFinal();
+		//memcpy ( ma , maAux , sizeof ( ma ) );
 	}
 }
+void ativacaoTeste(){
+		int i,j,random,flag=0;		
+		for(i=0;i<TAM_MATRIZ;i++)
+			for(j=0;j<TAM_MATRIZ;j++){				
+				if(flag<3){
+					//do{
+						random=rand()%8;
+					//}while(ma[i][j].vizinhosVal[random]!=0);
+					flag++;
+					ma[i][j].vizinhosVal[random]=1;
+				}
+			}
+		for ( i = 0 ; i < 10 ; i++) {
+      			for (j = 0 ; j < 10 ; j++) {
+         			//printf("valor do indiviuo = %f\n",matriz[i][j].valor);
+         			for(int k=0;k<8;k++){
+         				if(ma[i][j].vizinhosVal[k]!=0)
+         					printf("\n individuo %i tem valor de vizinho %i =%i\n",j,k,ma[i][j].vizinhosVal[k]);
+         			}
+         		}
+      	}
+  		
 
+
+}
 
 //Nao trata os individuos das bordas
-void armazenaVizinhos(individuo **ma){
+void armazenaVizinhos(){
 	int i,j,k,l,m;
 
 	//Percorre cada individuo
@@ -43,7 +69,7 @@ void armazenaVizinhos(individuo **ma){
 }
 
 
- void calculaInfluencia(individuo **ma, individuo **maAux){
+ void calculaInfluencia(){
 	int i,j,k;
 
 	//Variaveis para controlar a quantidade de cada tipo de vizinho

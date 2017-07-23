@@ -13,8 +13,8 @@ void display()
 
 	glClear( GL_COLOR_BUFFER_BIT );
  	escreveTitulo();
- 	drawFirstM(maInicial);
- 	drawFinalM(ma);
+ 	drawFirstM();
+ 	drawFinalM();
  	//glPushMatrix();
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);
@@ -156,17 +156,17 @@ return ma;
 }
 
 //cidadao bom =2 cidadao ruim =0 cidadao influenciavel =1
-void drawFirstM (individuo **ma){
+void drawFirstM (void){
 	int i,j,posx=22,posy=100,random=0;
     for(i=0;i<10;i++){
     	posy+=18;
     	for(j=0;j<10;j++){
     			posx+=18;
-    			if(ma[i][j].valor==2)
+    			if(maInicial[i][j].valor==2)
     				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
-    			else if(ma[i][j].valor==0)
+    			else if(maInicial[i][j].valor==0)
     				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
-    			else if(ma[i][j].valor==1)
+    			else if(maInicial[i][j].valor==1)
     				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
     	}
@@ -175,7 +175,7 @@ void drawFirstM (individuo **ma){
 }
 // por enquanto essa aqui ta igual a inicial, mas a ideia é fazer a a evolucao da populacao nessa, e deixar a outra
 // como comparacao.
-void drawFinalM (individuo **ma){
+void drawFinalM (void){
 	int i,j,posx=270,posy=100,random=0;
     for(i=0;i<10;i++){
     	posy+=18;
@@ -191,4 +191,23 @@ void drawFinalM (individuo **ma){
     	}
     	posx=270;
     }		
+}
+
+void copiaMatriz(){
+	for (int i = 0 ; i < 10 ; i++){
+            for (int j = 0 ; j < 10 ; j++){
+                 maInicial[i][j].valor =ma[i][j].valor;
+                 //for(int k=0;k<8;k++)
+                 	//ma[i][j].valor=1;
+            }
+        }
+}
+void copiaAuxFinal(){
+	for (int i = 0 ; i < 10 ; i++){
+            for (int j = 0 ; j < 10 ; j++){
+                 ma[i][j].valor =maAux[i][j].valor;
+                 //for(int k=0;k<8;k++)
+                 	//ma[i][j].valor=1;
+            }
+        }
 }
