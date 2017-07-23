@@ -1,16 +1,18 @@
-
+#include "AG.h"
 //Exemplo Rotina
 void executaAlgortimo(){
 
 	int i;
-
+	
 	//Inicia Algoritimo
-	for(i = 0; i<1;i++){
+	//for(i = 0; i<NUM_ITERACOES;i++){
+
 		//Atribuir os vizinhos
 		armazenaVizinhos();
+
 		//Definir ativacao dos vizinhos (AG)
-		//???
-		ativacaoTeste();
+		//defineAtivacaoVizinhos();
+		//ativacaoTeste();
 
 		//Calcular a Influencia
 		calculaInfluencia();
@@ -18,18 +20,29 @@ void executaAlgortimo(){
 		//Atribuir a matriz resultado para a matriz principal
 		copiaAuxFinal();
 		//memcpy ( ma , maAux , sizeof ( ma ) );
+
+    	float aptPop  = calculaAptidao(ma);
+    	printf("Aptidao da populacao:%f\n",aptPop);
+
 		glutPostRedisplay();
 		
 	
-	}
+	//}
 }
 
 void ativacaoTeste(){
-		int i,j,k,random,flag=0;
+		int i,j,k,random,count,flag=0;
 				
 		for(i=0;i<TAM_MATRIZ;i++){
 			for(j=0;j<TAM_MATRIZ;j++){
-				for(k = 0; k< NUM_VIZINHOS; k++) ma[i][j].vizinhos[k] = rand()%2;
+				do{
+					count = 0;
+					for(k = 0; k< NUM_VIZINHOS; k++){ 
+						ma[i][j].vizinhos[k] = rand()%2;
+						if(ma[i][j].vizinhos[k] == 1) count++;
+					}
+
+				}while(count >= (NUM_VIZINHOS/4));
 				/*		
 				if(flag<3){
 					//do{
@@ -122,25 +135,40 @@ void calculaInfluencia(){
 			
 			//Calcular o novo valor do individuo na matriz auxiliar
 
-			//Se a maiora é bom e correponde a mais que 50% dos vizinhos ativos
-			if(bom > ruim && bom >= int(ativos/2)){
+			//Se a maiora é bom 
+			if(bom > ruim){
 
-				//Se o individuo era ruim, vira influenciavel
-				if(ma[i][j].valor == 0) maAux[i][j].valor = 1;
+				//Se o individuo era ruim
+				if(ma[i][j].valor == 0){
+					//Se os vizinhos bons forem GRANDE maioria, vira influenciavel
+					if(float(bom/ativos) > 0.75) maAux[i][j].valor = 1;
 
-				//Se o individuo era influenciavel, vira bom
-				else if(ma[i][j].valor == 1) maAux[i][j].valor = 2;
+				}
+				//Se o individuo era influenciavel
+				else if(ma[i][j].valor == 1){
+					//Se vizinhos bons forem maioria, individuo vira bom
+					if(bom > int(ativos/2)) maAux[i][j].valor = 2;
+				} 
+
+				//Se nao mudou de estado, copia o mesmo para na nova matriz
 				else maAux[i][j].valor = ma[i][j].valor;
 			}
 
-			//Se a maiora é ruim e correponde a mais que 50% dos vizinhos ativos
-			else if(ruim > bom && ruim >= int(ativos/2)){
+			//Se a maiora é ruim
+			else if(ruim > bom){
 
-				//Se o individuo era bom, vira influenciavel
-				if(ma[i][j].valor == 2) maAux[i][j].valor = 1;
+				//Se o individuo era bom
+				if(ma[i][j].valor == 2){
+					//Se os vizinhos ruins forem grande maioria, vira influenciavel
+					if(float(ruim/ativos) > 0.75) maAux[i][j].valor = 1;
+				}
 
-				//Se o individuo era influenciavel, vira ruim
-				else if(ma[i][j].valor == 1) maAux[i][j].valor = 0;
+				//Se o individuo era influenciavel
+				else if(ma[i][j].valor == 1){
+					//Se vizinhos ruins forem maioria, individuo vira ruim
+					if(ruim > int(ativos/2)) maAux[i][j].valor = 0;
+				}
+				//Se nao mudou de estado, copia o mesmo para na nova matriz
 				else maAux[i][j].valor = ma[i][j].valor;
 
 			}

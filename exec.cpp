@@ -2,12 +2,13 @@
 #include "funcs.h"
 #include "alocacao.h"
 #include "automatos.h"
+//include "AG.h"
 
 int main(int argc, char *argv[])
 {		
 		srand(time(NULL));
 
-        //Alocacao das Matrizes
+    //Alocacao das Matrizes
     ma = AlocMat();
     maAux  = AlocMat();
     maInicial=AlocMat();
@@ -21,11 +22,15 @@ int main(int argc, char *argv[])
     ma = iniciPMatriz(n);
 
     copiaMatriz();
+    defineAtivacaoVizinhos();
+    //ativacaoTeste();
+
+
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
     glutInitWindowSize( 500, 500 );
     glutInitWindowPosition( 70, 75 );
-    glutCreateWindow("Simulador de populacao IA 2017/2");
+    glutCreateWindow("Simulador de populacao IA 2017/1");
     init();
     //Essa eh a matriz inicial do problema, ela nunca serah mudada
     //memcpy ( maInicial , ma , sizeof ( **ma ) );
