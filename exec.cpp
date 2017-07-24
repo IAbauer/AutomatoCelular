@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     ma = iniciPMatriz(n);
 
     copiaMatriz();
-    defineAtivacaoVizinhos();
+    geraFormacaoIndividuo();
     //ativacaoTeste();
 
 

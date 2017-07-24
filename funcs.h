@@ -17,7 +17,7 @@ void display()
  	drawFinalM();
  	//if(teclas['a']==true)
  	if(iter<NUM_ITERACOES){
- 		executaAlgortimo();
+ 		executaAlgortimoAutomato();
  		iter++;
  	}
  	//glPushMatrix();

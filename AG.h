@@ -43,7 +43,7 @@ float calculaAptidao(individuo **mat){
 }
 
 
-void defineAtivacaoVizinhos(){
+void geraFormacaoIndividuo(){
 	int i,j,k,count;
 
 	//Percore os individuos
@@ -61,6 +61,10 @@ void defineAtivacaoVizinhos(){
 
 			//Garante que pelo menos 25% dos vizinhos estarão ativos
 			}while(count >= (NUM_VIZINHOS/4));
+
+			//Define a formula de mudanca de estado do individuo
+			ma[i][j].formula = rand()%3;
+
 		}
 	}
 }

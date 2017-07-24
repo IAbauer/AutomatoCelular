@@ -12,6 +12,7 @@
 
 typedef struct Individuo{
 	float valor;
+	int formula;
 	int vizinhos[8];
     int vizinhosVal[8];
 
@@ -54,12 +55,13 @@ void drawFinalM (void);
 int **FreeMat(int **mat);
 individuo **AlocMat();
 void drawFirstM (void);
-void calculaInfluencia(void); 
+void mudaEstado(void);
+int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct); 
 void armazenaVizinhos(void);
-void ativacaoTeste(void);
+void geraFormacaoIndividuo(void);
 void copiaMatriz(void);
 void copiaAuxFinal(void);
 void keyPressed (unsigned char key, int x, int y);
 void keyUp (unsigned char key, int x, int y);
 void keyOperations(void);
-void executaAlgortimo(void);
+void executaAlgortimoAutomato(void);
