@@ -14,10 +14,7 @@ void executaAlgortimoAutomato(){
 
 	//Atribuir a matriz resultado para a matriz principal
 	copiaAuxFinal();
-	//memcpy ( ma , maAux , sizeof ( ma ) );
-
-	glutPostRedisplay();
-		
+	//memcpy ( ma , maAux , sizeof ( ma ) );		
 	
 	//}
 }

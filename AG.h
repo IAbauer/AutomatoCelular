@@ -82,7 +82,7 @@ void geraFormacaoIndividuo(){
 				}
 
 			//Garante que pelo menos 25% dos vizinhos estarão ativos
-			}while(count >= (NUM_VIZINHOS/4));
+			}while(count >= 3);
 
 			//Define a formula de mudanca de estado do individuo
 			ma[i][j].formula = rand()%3;
