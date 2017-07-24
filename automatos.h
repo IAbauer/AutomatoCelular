@@ -16,9 +16,6 @@ void executaAlgortimoAutomato(){
 	copiaAuxFinal();
 	//memcpy ( ma , maAux , sizeof ( ma ) );
 
-	float aptPop  = calculaAptidao(ma);
-	printf("Aptidao da populacao:%f\n",aptPop);
-
 	glutPostRedisplay();
 		
 	

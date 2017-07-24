@@ -19,6 +19,7 @@ void display()
  	if(iter<NUM_ITERACOES){
  		executaAlgortimoAutomato();
  		iter++;
+ 		if(iter == 49) criaLog();
  	}
  	//glPushMatrix();
 		//glTranslatef(, ,0 );

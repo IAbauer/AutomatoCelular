@@ -42,6 +42,7 @@ individuo **maInicial;
 #define TAM_MATRIZ 10
 #define NUM_VIZINHOS 8
 #define NUM_ITERACOES 50
+
 int iter=0;
 void init();
 void display();
@@ -65,3 +66,9 @@ void keyPressed (unsigned char key, int x, int y);
 void keyUp (unsigned char key, int x, int y);
 void keyOperations(void);
 void executaAlgortimoAutomato(void);
+int qtdIndividuosDiferentes(int ind);
+int qtdVizinhosDiferentes(Individuo ind);
+float traduzFormula(int ident);
+float calculaAptidao(Individuo ind);
+void geraFormacaoIndividuo();
+void criaLog();

@@ -1,43 +1,65 @@
 
 float numIndividuos = pow(TAM_MATRIZ,2);
 
-//Calcula a porcentagem de individuos bons na matriz final
-float percentBons(individuo **mat){
+int qtdIndividuosDiferentes(int ind){
+
 	int i,j;
 	float qtd = 0;
 	float pct = 0;
 	for(i=0; i<TAM_MATRIZ; i++){
 		for(j=0; j<TAM_MATRIZ; j++){
-			if(mat[i][j].valor == 2) qtd++;
+			if(ma[i][j].valor != ind) qtd++;
 		}
 	}
-	pct = qtd/numIndividuos;
 
-	return pct;
+	return qtd;
+}
+
+int qtdVizinhosDiferentes(Individuo ind){
+
+	int i,j,k;
+	float qtd = 0;
+	float pct = 0;
+
+	for(k = 0; k< NUM_VIZINHOS; k++){
+		if(ind.vizinhosVal[k] != ind.valor && ind.vizinhosVal[k] != -1) qtd++;
+	}
+
+
+	return qtd;
+
+}
+
+float traduzFormula(int ident){
+	
+	float formula;
+
+	if(ident == 0){
+		formula = 0.8;
+	}
+	else if(ident == 1){
+		formula = 0.65;
+	}
+	else if(ident == 2){
+		formula = 0.5;
+	}
+
+	return formula;
+
 }
 
 //Funcao para calcular a aptidao da populacao
-float calculaAptidao(individuo **mat){
-
-	//Calcula a quantidade de individuos bons
-	float pct = percentBons(mat);
-	float qtdBons = numIndividuos*pct;
+float calculaAptidao(Individuo ind){
 
 	float aptidao = 0;
 
-	//Se bons forem maioria (aptidao ALTA)
-	if(pct >= 55){
-		aptidao = 1 - (qtdBons/numIndividuos);
-	}
-	//Se nao houver maioria clara
-	else if(pct >45 && pct < 55){
-		aptidao = 1- abs( ((2*qtdBons)/numIndividuos) - 1);
-	}
+	float indOpostos = qtdIndividuosDiferentes(ind.valor);
 
-	//Se bons forem minoria (aptidao BAIXA)
-	else if(pct <= 45){
-		aptidao = (qtdBons/numIndividuos);
-	}
+	float vizOpostos = qtdVizinhosDiferentes(ind);
+
+	float formula = traduzFormula(ind.formula);
+
+	aptidao = ((1 - formula) + ((vizOpostos/NUM_VIZINHOS)/2.0) + (indOpostos/100.0))/2.0;
 
 	return aptidao;
 }
@@ -68,3 +90,20 @@ void geraFormacaoIndividuo(){
 		}
 	}
 }
+
+void criaLog(){
+	
+	int i,j,k;
+	FILE* file = fopen("aptidaoIndividuos.txt","w");
+
+	if(file){
+		for(i=0; i<TAM_MATRIZ; i++){
+			fprintf(file,"\n");
+			for(j=0; j<TAM_MATRIZ; j++){
+				float apt = calculaAptidao(ma[i][j]);
+				fprintf(file,"%.3f, ",apt);
+			}
+		}
+	}
+	fclose(file);
+}	
