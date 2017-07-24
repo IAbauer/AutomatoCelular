@@ -18,8 +18,6 @@ void executaAlgortimoAutomato(){
 
 	float aptPop  = calculaAptidao(ma);
 	printf("Aptidao da populacao:%f\n",aptPop);
-
-	glutPostRedisplay();
 		
 	
 	//}

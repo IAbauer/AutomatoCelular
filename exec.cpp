@@ -54,10 +54,9 @@ int main(int argc, char *argv[])
    		}*/
         ////OPENGL FUNCS
         
-      
-    	glutDisplayFunc( display );
       glutKeyboardFunc(keyPressed);
       glutKeyboardUpFunc(keyUp);
+    	glutDisplayFunc( display );
     	glutMainLoop();
     	return 0;
 }
