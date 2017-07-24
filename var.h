@@ -26,11 +26,16 @@ char ini[]="POPULACAO INICIAL";
 char final[]="POPULACAO FINAL";
 char titulo[]="Simulador de populacao";
 char by[]="Desenvolvido por Gabriel Moura & Thaylo Guizani";
-int n;
+char p20[]="p/ 20 p/cent BOM";
+char p50[]="p/ 50 p/cent BOM";
+char p80[]="p/ 80 p/cent BOM";
+int n,f20=0,f50=0,f80=0,flag20=0,flag50=0,flag80=0;
 bool teclas[256];
 
 //Matrizes para realizar as iterações, sugiro que nao sejam globais
 individuo **ma;
+individuo **ma1;
+individuo **ma2;
 individuo **maAux;
 
 //Matriz Original que será mostrada graficamente no OpenGL, deixar apenas essa ser global (e futuramente a maFinal)
@@ -52,7 +57,7 @@ void desenhaCirculo(GLint x, GLint y, int linhas, int raio, float r, float g, fl
 void DesenhaTextoStroke(void *font, char *string);
 void escreveTitulo(void);
 individuo **iniciPMatriz(int n);
-void drawFinalM (void);
+void drawFinalM ();
 int **FreeMat(int **mat);
 individuo **AlocMat();
 void drawFirstM (void);
@@ -72,3 +77,6 @@ float traduzFormula(int ident);
 float calculaAptidao(Individuo ind);
 void geraFormacaoIndividuo();
 void criaLog();
+void tituloIni(int valor);
+void copiaAuxFinal50(void);
+void copiaAuxFinal80(void);

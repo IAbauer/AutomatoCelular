@@ -2,7 +2,8 @@
 #include "funcs.h"
 #include "alocacao.h"
 #include "automatos.h"
-//include "AG.h"
+#include "aux.h"
+#include "AG.h"
 
 int main(int argc, char *argv[])
 {		
@@ -10,25 +11,27 @@ int main(int argc, char *argv[])
 
     //Alocacao das Matrizes
     ma = AlocMat();
+    ma1 = AlocMat();
+    ma2 = AlocMat();
     maAux  = AlocMat();
     maInicial=AlocMat();
 
     //Obter a % de individuos bons
-    printf("\nInsira a porcentagem de inimigos bons inicial!\n");
-    scanf("%i",&n);
+    //printf("\nInsira a porcentagem de inimigos bons inicial!\n");
+    //scanf("%i",&n);
 
     //matriz= AlocMat(10, 10);
     //Inicializar a matriz principal
-    ma = iniciPMatriz(n);
+    //ma = iniciPMatriz(n);
 
-    copiaMatriz();
+    //copiaMatriz();
     geraFormacaoIndividuo();
     //ativacaoTeste();
 
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
-    glutInitWindowSize( 500, 500 );
+    glutInitWindowSize( 800, 600 );
     glutInitWindowPosition( 70, 75 );
     glutCreateWindow("Simulador de populacao IA 2017/1");
     init();

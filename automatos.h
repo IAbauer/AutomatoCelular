@@ -1,4 +1,4 @@
-#include "AG.h"
+//#include "AG.h"
 //Exemplo Rotina
 void executaAlgortimoAutomato(){
 

@@ -5,7 +5,7 @@ void init()
     	glClearColor( 0, 0, 0, 0.0 );
 			//glClear( GL_COLOR_BUFFER_BIT );
     	//glMatrixMode( GL_PROJECTION );
-    	gluOrtho2D(0,500,0,500 );
+    	gluOrtho2D(0,1000,0,500 );
 }
 
 void display()
@@ -15,7 +15,31 @@ void display()
 	keyOperations();
  	escreveTitulo();
  	drawFirstM();
- 	drawFinalM();
+ 	if (f20==1){
+ 		if(flag20==0){
+ 			ma = iniciPMatriz(20);
+ 			copiaMatriz();
+ 			flag20=1;
+ 		}
+ 		tituloIni(1);
+ 		drawFinalM();
+ 	}else if(f50==1){
+ 		if(flag50==0){
+ 			ma = iniciPMatriz(50);
+ 			copiaMatriz();
+ 			flag50=1;
+ 		}
+ 		tituloIni(2);
+ 		drawFinalM();
+ 	}else if(f80==1){
+ 		if(flag80==0){
+ 			ma = iniciPMatriz(80);
+ 			copiaMatriz();
+ 			flag80=1;
+ 		}
+ 		tituloIni(3);
+ 		drawFinalM();
+ 	}
  	//if(teclas['a']==true)
 
  	if(iter<NUM_ITERACOES){
@@ -46,6 +70,17 @@ void keyOperations(){
  			iter++;
  		//}
  	}
+ 	if(teclas['1']==true){
+ 		f20=1;
+ 	}
+ 	if(teclas['2']==true){
+ 		f20=0;
+ 		f50=1;
+ 	}
+ 	if(teclas['3']==true){
+ 		f50=0;
+ 		f80=1;
+ 	} 		
  	glutPostRedisplay();
 
 }
@@ -54,16 +89,16 @@ void keyOperations(){
 void escreveTitulo(void){
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(110,460,0);
-		glScalef(0.2, 0.2, 0.2); // diminui o tamanho do fonte
+		glTranslatef(220,440,0);
+		glScalef(0.4, 0.4, 0.3); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,titulo);
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(110,400,0);
-		glScalef(0.09, 0.09, 0.09); // diminui o tamanho do fonte
+		glTranslatef(320,385,0);
+		glScalef(0.12, 0.12, 0.09); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,by);
@@ -71,23 +106,23 @@ void escreveTitulo(void){
 	glPushMatrix();	
 		glColor3f(1,0,0);
 		glTranslatef(20,20,0);
-		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		glScalef(0.16, 0.16, 0.16); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,ruim);
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(200,20,0);
-		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		glTranslatef(430,20,0);
+		glScalef(0.16, 0.16, 0.16); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,influ);
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(0,1,0);
-		glTranslatef(450,20,0);
-		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		glTranslatef(930,20,0);
+		glScalef(0.16, 0.16, 0.16); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,bom);
@@ -103,12 +138,67 @@ void escreveTitulo(void){
 	glPushMatrix();	
 		glColor3f(1,1,1);
 		glTranslatef(290,330,0);
-		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		glScalef(0.53, 0.13, 0.13); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,final);
 	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(310,90,0);
+		glScalef(0.1, 0.1, 0.1); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p20);
+	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(560,90,0);
+		glScalef(0.1, 0.1, 0.1); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p50);
+	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(815,90,0);
+		glScalef(0.1, 0.1, 0.1); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p80);
+	glPopMatrix();
+	
 
+}
+void tituloIni(int valor){
+	if(valor==1){
+		glPushMatrix();	
+			glColor3f(1,1,1);
+			glTranslatef(40,90,0);
+			glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+			//glRotatef(15, 0,0,1); // rotaciona o texto
+			glLineWidth(2); // define a espessura da linha
+			DesenhaTextoStroke(GLUT_STROKE_ROMAN,p20);
+		glPopMatrix();
+	}else if(valor==2){
+		glPushMatrix();	
+			glColor3f(1,1,1);
+			glTranslatef(40,90,0);
+			glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+			//glRotatef(15, 0,0,1); // rotaciona o texto
+			glLineWidth(2); // define a espessura da linha
+			DesenhaTextoStroke(GLUT_STROKE_ROMAN,p50);
+		glPopMatrix();
+	}else if (valor==3){
+		glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(40,90,0);
+		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p80);
+	glPopMatrix();
+	}
 }
 
 void desenhaCirculo(GLint x, GLint y, int linhas, int raio, float r, float g, float b){
@@ -234,38 +324,54 @@ void drawFirstM (void){
 // por enquanto essa aqui ta igual a inicial, mas a ideia é fazer a a evolucao da populacao nessa, e deixar a outra
 // como comparacao.
 void drawFinalM (void){
-	int i,j,posx=270,posy=100,random=0;
-    for(i=0;i<10;i++){
-    	posy+=18;
-    	for(j=0;j<10;j++){
-    			posx+=18;
-    			if(maAux[i][j].valor==2)
-    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
-    			else if(maAux[i][j].valor==0)
-    				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
-    			else if(maAux[i][j].valor==1)
-    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
+	int i,j,posx=270,posy=100;
+  
+	    for(i=0;i<10;i++){
+	    	posy+=18;
+	    	for(j=0;j<10;j++){
+	    			posx+=18;
+	    			if(ma[i][j].valor==2)
+	    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
+	    			else if(ma[i][j].valor==0)
+	    				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
+	    			else if(ma[i][j].valor==1)
+	    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
-    	}
-    	posx=270;
-    }		
+	    	}
+	    	posx=270;
+	    }	
+	  
+	    posx=520;posy=100;	
+	    for(i=0;i<10;i++){
+	    	posy+=18;
+	    	for(j=0;j<10;j++){
+	    			posx+=18;
+	    			if(ma1[i][j].valor==2)
+	    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
+	    			else if(ma1[i][j].valor==0)
+	    				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
+	    			else if(ma1[i][j].valor==1)
+	    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
+
+	    	}
+	    	posx=520;
+	    }
+	   
+	    posx=770;posy=100;
+	    for(i=0;i<10;i++){
+	    	posy+=18;
+	    	for(j=0;j<10;j++){
+	    			posx+=18;
+	    			if(ma2[i][j].valor==2)
+	    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
+	    			else if(ma2[i][j].valor==0)
+	    				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
+	    			else if(ma2[i][j].valor==1)
+	    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
+
+	    	}
+	    	posx=770;
+	    }
+	   
 }
 
-void copiaMatriz(){
-	for (int i = 0 ; i < 10 ; i++){
-            for (int j = 0 ; j < 10 ; j++){
-                 maInicial[i][j].valor =ma[i][j].valor;
-                 //for(int k=0;k<8;k++)
-                 	//ma[i][j].valor=1;
-            }
-        }
-}
-void copiaAuxFinal(){
-	for (int i = 0 ; i < 10 ; i++){
-            for (int j = 0 ; j < 10 ; j++){
-                 ma[i][j].valor =maAux[i][j].valor;
-                 //for(int k=0;k<8;k++)
-                 	//ma[i][j].valor=1;
-            }
-        }
-}
