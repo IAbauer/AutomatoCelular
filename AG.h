@@ -1,7 +1,7 @@
 
 float numIndividuos = pow(TAM_MATRIZ,2);
 
-int qtdIndividuosDiferentes(int ind){
+int qtdIndividuosDiferentes(int ind, individuo **ma){
 
 	int i,j;
 	float qtd = 0;
@@ -49,11 +49,11 @@ float traduzFormula(int ident){
 }
 
 //Funcao para calcular a aptidao da populacao
-float calculaAptidao(Individuo ind){
+float calculaAptidao(Individuo ind, individuo **ma){
 
 	float aptidao = 0;
 
-	float indOpostos = qtdIndividuosDiferentes(ind.valor);
+	float indOpostos = qtdIndividuosDiferentes(ind.valor,ma);
 
 	float vizOpostos = qtdVizinhosDiferentes(ind);
 
@@ -65,7 +65,7 @@ float calculaAptidao(Individuo ind){
 }
 
 
-void geraFormacaoIndividuo(){
+individuo **geraFormacaoIndividuo(individuo **ma){
 	int i,j,k,count;
 
 	//Percore os individuos
@@ -89,21 +89,6 @@ void geraFormacaoIndividuo(){
 
 		}
 	}
+    return ma;
 }
 
-void criaLog(){
-	
-	int i,j,k;
-	FILE* file = fopen("aptidaoIndividuos.txt","w");
-
-	if(file){
-		for(i=0; i<TAM_MATRIZ; i++){
-			fprintf(file,"\n");
-			for(j=0; j<TAM_MATRIZ; j++){
-				float apt = calculaAptidao(ma[i][j]);
-				fprintf(file,"%.3f, ",apt);
-			}
-		}
-	}
-	fclose(file);
-}	

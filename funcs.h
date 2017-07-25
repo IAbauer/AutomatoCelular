@@ -6,6 +6,11 @@ void init()
 			//glClear( GL_COLOR_BUFFER_BIT );
     	//glMatrixMode( GL_PROJECTION );
     	gluOrtho2D(0,1000,0,500 );
+    	//individuo **ma;
+    	//individuo **ma1;
+    	//individuo **ma2;
+    	//individuo **maAux;
+    	//individuo **maInicial;
 }
 
 void display()
@@ -14,39 +19,61 @@ void display()
 	glClear( GL_COLOR_BUFFER_BIT );
 	keyOperations();
  	escreveTitulo();
- 	drawFirstM();
+ 	if (aloca==0){
+		ma = AlocMat();
+		ma1 = AlocMat();
+		ma2 = AlocMat();
+		maAux = AlocMat();
+		maInicial=AlocMat();
+ 		aloca=1;
+ 	}
  	if (f20==1){
  		if(flag20==0){
- 			ma = iniciPMatriz(20);
- 			copiaMatriz();
+ 			ma = iniciPMatriz(20,ma);
+ 			ma = geraFormacaoIndividuo(ma);
+ 			maInicial = copiaMatriz(maInicial,ma);
  			flag20=1;
  		}
+ 		if(iter<NUM_ITERACOES){
+ 			ma = executaAlgortimoAutomato(ma,maAux);
+ 			iter++;
+ 			printf("%d \n",iter);
+ 		if(iter == 49) criaLog(ma,nome);
+ 	}
  		tituloIni(1);
- 		drawFinalM();
  	}else if(f50==1){
  		if(flag50==0){
- 			ma = iniciPMatriz(50);
- 			copiaMatriz();
+ 			ma1 = iniciPMatriz(50,ma1);
+ 			ma1 = geraFormacaoIndividuo(ma1);
+ 			maInicial = copiaMatriz(maInicial,ma1);
  			flag50=1;
  		}
+ 		if(iter1<NUM_ITERACOES){
+ 			ma1 = executaAlgortimoAutomato(ma1,maAux);
+ 			iter1++;
+ 		if(iter1 == 49) criaLog(ma1,nome1);
+ 		}
  		tituloIni(2);
- 		drawFinalM();
  	}else if(f80==1){
  		if(flag80==0){
- 			ma = iniciPMatriz(80);
- 			copiaMatriz();
+ 			ma2 = iniciPMatriz(80,ma2);
+ 			ma2 =geraFormacaoIndividuo(ma2);
+ 			maInicial = copiaMatriz(maInicial,ma2);
  			flag80=1;
  		}
- 		tituloIni(3);
- 		drawFinalM();
+ 		if(iter2<NUM_ITERACOES){
+ 			ma2 = executaAlgortimoAutomato(ma2,maAux);
+ 			iter2++;
+ 		if(iter2 == 49) criaLog(ma2,nome2);
  	}
+ 		tituloIni(3);
+ 	}
+ 	drawFirstM(maInicial);
+ 	drawFinalM(ma);
+ 	drawFinalM50(ma1);
+ 	drawFinalM80(ma2);
  	//if(teclas['a']==true)
 
- 	if(iter<NUM_ITERACOES){
- 		executaAlgortimoAutomato();
- 		iter++;
- 		if(iter == 49) criaLog();
- 	}
  	//glPushMatrix();
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);
@@ -64,12 +91,6 @@ void keyUp (unsigned char key, int x, int y){
 
 }
 void keyOperations(){
-	if(iter<NUM_ITERACOES){
- 		//if (teclas[13]==true){
- 			executaAlgortimoAutomato();
- 			iter++;
- 		//}
- 	}
  	if(teclas['1']==true){
  		f20=1;
  	}
@@ -220,7 +241,7 @@ void DesenhaTextoStroke(void *font, char *string)
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,*string++); 
 }
 //onde a matriz inicial é feita atravez do "random", o parametro N é a porcentagem de inimigos bons na populacao
-individuo **iniciPMatriz(int n){
+individuo **iniciPMatriz(int n,individuo **ma){
 	int i,j,r1,r2,k,flag=0,qtdBranco;
 	float percent=0;
 	qtdBranco=(100-n)*10/100;
@@ -304,7 +325,7 @@ return ma;
 }
 
 //cidadao bom =2 cidadao ruim =0 cidadao influenciavel =1
-void drawFirstM (void){
+void drawFirstM (individuo **maInicial){
 	int i,j,posx=22,posy=100,random=0;
     for(i=0;i<10;i++){
     	posy+=18;
@@ -323,7 +344,7 @@ void drawFirstM (void){
 }
 // por enquanto essa aqui ta igual a inicial, mas a ideia é fazer a a evolucao da populacao nessa, e deixar a outra
 // como comparacao.
-void drawFinalM (void){
+void drawFinalM (individuo **ma){
 	int i,j,posx=270,posy=100;
   
 	    for(i=0;i<10;i++){
@@ -339,12 +360,13 @@ void drawFinalM (void){
 
 	    	}
 	    	posx=270;
-	    }	
-	  
-	    posx=520;posy=100;	
-	    for(i=0;i<10;i++){
+	    }	  
+}
+void drawFinalM50 (individuo **ma1){
+ int posx=520,posy=100;	
+	    for(int i=0;i<10;i++){
 	    	posy+=18;
-	    	for(j=0;j<10;j++){
+	    	for(int j=0;j<10;j++){
 	    			posx+=18;
 	    			if(ma1[i][j].valor==2)
 	    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
@@ -356,11 +378,13 @@ void drawFinalM (void){
 	    	}
 	    	posx=520;
 	    }
-	   
-	    posx=770;posy=100;
-	    for(i=0;i<10;i++){
+}
+void drawFinalM80 (individuo **ma2){
+ int posx=770; 
+ int posy=100;
+	    for(int i=0;i<10;i++){
 	    	posy+=18;
-	    	for(j=0;j<10;j++){
+	    	for(int j=0;j<10;j++){
 	    			posx+=18;
 	    			if(ma2[i][j].valor==2)
 	    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
@@ -372,6 +396,4 @@ void drawFinalM (void){
 	    	}
 	    	posx=770;
 	    }
-	   
 }
-

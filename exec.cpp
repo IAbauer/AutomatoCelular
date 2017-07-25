@@ -10,12 +10,8 @@ int main(int argc, char *argv[])
 		srand(time(NULL));
 
     //Alocacao das Matrizes
-    ma = AlocMat();
-    ma1 = AlocMat();
-    ma2 = AlocMat();
-    maAux  = AlocMat();
-    maInicial=AlocMat();
-
+    
+    //display(m,m1,m2,mAux,mInicial);
     //Obter a % de individuos bons
     //printf("\nInsira a porcentagem de inimigos bons inicial!\n");
     //scanf("%i",&n);
@@ -25,41 +21,18 @@ int main(int argc, char *argv[])
     //ma = iniciPMatriz(n);
 
     //copiaMatriz();
-    geraFormacaoIndividuo();
     //ativacaoTeste();
 
-
+ ////OPENGL FUNCS 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
     glutInitWindowSize( 800, 600 );
     glutInitWindowPosition( 70, 75 );
     glutCreateWindow("Simulador de populacao IA 2017/1");
     init();
-    //Essa eh a matriz inicial do problema, ela nunca serah mudada
-    //memcpy ( maInicial , ma , sizeof ( **ma ) );
-    //memcpy(destino,origem,tamanho)
-    //maInicial = ma;
-    //executaAlgortimo();
-        //FreeMat(linhas, colunas, matriz);
-    	/*for (int i = 0 ; i < 10 ; i++){
-            for (int j = 0 ; j < 10 ; j++){
-                 ma[i][j].valor =1;
-                 //for(int k=0;k<8;k++)
-                 	//ma[i][j].valor=1;
-            }
-        }*/
-        /* for (int i = 0 ; i < 10 ; i++) {
-      			for (int j = 0 ; j < 10 ; j++) {
-         			printf("valor do indiviuo = %f\n",matriz[i][j].valor);
-         			for(int k=0;k<8;k++)
-         				printf("\n valor do vizinho %i =%i\n",i,matriz[i][j].vizinhos[k]);
-      			}
-   		}*/
-        ////OPENGL FUNCS
-        
-      glutKeyboardFunc(keyPressed);
-      glutKeyboardUpFunc(keyUp);
-    	glutDisplayFunc( display );
-    	glutMainLoop();
-    	return 0;
+    glutKeyboardFunc(keyPressed);
+    glutKeyboardUpFunc(keyUp);
+  	glutDisplayFunc( display );
+  	glutMainLoop();
+  	return 0;
 }

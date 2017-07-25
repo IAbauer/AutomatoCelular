@@ -1,26 +1,27 @@
 //#include "AG.h"
 //Exemplo Rotina
-void executaAlgortimoAutomato(){
+individuo **executaAlgortimoAutomato(individuo **ma,individuo **maAux){
 
 	int i;
 	
 	//Inicia Algoritimo
 
 	//Atribuir os vizinhos
-	armazenaVizinhos();
+	ma = armazenaVizinhos(ma);
 
 	//Calcular os novos estados dos individuos apos uma iteracao
-	mudaEstado();
+	maAux = mudaEstado(ma,maAux);
 
 	//Atribuir a matriz resultado para a matriz principal
-	copiaAuxFinal();
+	ma = copiaAuxFinal(maAux,ma);
 	//memcpy ( ma , maAux , sizeof ( ma ) );		
 	
 	//}
+	return ma;
 }
 
 //Funciona LISO
-void armazenaVizinhos(){
+individuo **armazenaVizinhos(individuo **ma){
 	int i,j,k,l,c,n;
 
 	//Percorre cada individuo
@@ -54,11 +55,11 @@ void armazenaVizinhos(){
 			
 		}
 	}
-	
+	return ma;
 }
 
 //Funciona LISO
-void mudaEstado(){
+individuo **mudaEstado(individuo **ma,individuo **maAux){
 	int i,j,k;
 	float pct;
 	//Variaveis para controlar a quantidade de cada tipo de vizinho
@@ -105,7 +106,9 @@ void mudaEstado(){
 			}
 		}
 	}	
+	return maAux;
 }
+
 
 int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct){
 
