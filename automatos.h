@@ -1,62 +1,27 @@
-
+//#include "AG.h"
 //Exemplo Rotina
-void executaAlgortimo(){
+individuo **executaAlgortimoAutomato(individuo **ma,individuo **maAux){
 
 	int i;
-
-	//Inicia Algoritimo
-	for(i = 0; i<1;i++){
-		//Atribuir os vizinhos
-		armazenaVizinhos();
-		//Definir ativacao dos vizinhos (AG)
-		//???
-		ativacaoTeste();
-
-		//Calcular a Influencia
-		calculaInfluencia();
-
-		//Atribuir a matriz resultado para a matriz principal
-		copiaAuxFinal();
-		//memcpy ( ma , maAux , sizeof ( ma ) );
-		glutPostRedisplay();
-		
 	
-	}
-}
+	//Inicia Algoritimo
 
-void ativacaoTeste(){
-		int i,j,k,random,flag=0;
-				
-		for(i=0;i<TAM_MATRIZ;i++){
-			for(j=0;j<TAM_MATRIZ;j++){
-				for(k = 0; k< NUM_VIZINHOS; k++) ma[i][j].vizinhos[k] = rand()%2;
-				/*		
-				if(flag<3){
-					//do{
-						random=rand()%8;
-					//}while(ma[i][j].vizinhosVal[random]!=0);
-					flag++;
-					ma[i][j].vizinhos[random]=1;
-				
-				}
-				*/
-			}
-		}
-		/*
-		for ( i = 0 ; i < TAM_MATRIZ ; i++) {
-      			for (j = 0 ; j < TAM_MATRIZ ; j++) {
-         			//printf("valor do indiviuo = %f\n",matriz[i][j].valor);
-         			for(int k=0;k<8;k++){
-         				if(ma[i][j].vizinhosVal[k]!=0)
-         					printf("\n individuo %i tem valor de vizinho %i =%i\n",j,k,ma[i][j].vizinhosVal[k]);
-         			}
-         		}
-      	}
-  		*/
+	//Atribuir os vizinhos
+	ma = armazenaVizinhos(ma);
+
+	//Calcular os novos estados dos individuos apos uma iteracao
+	maAux = mudaEstado(ma,maAux);
+
+	//Atribuir a matriz resultado para a matriz principal
+	ma = copiaAuxFinal(maAux,ma);
+	//memcpy ( ma , maAux , sizeof ( ma ) );		
+	
+	//}
+	return ma;
 }
 
 //Funciona LISO
-void armazenaVizinhos(){
+individuo **armazenaVizinhos(individuo **ma){
 	int i,j,k,l,c,n;
 
 	//Percorre cada individuo
@@ -90,13 +55,13 @@ void armazenaVizinhos(){
 			
 		}
 	}
-	
+	return ma;
 }
 
 //Funciona LISO
-void calculaInfluencia(){
+individuo **mudaEstado(individuo **ma,individuo **maAux){
 	int i,j,k;
-
+	float pct;
 	//Variaveis para controlar a quantidade de cada tipo de vizinho
 	int bom, ruim;
 	//Guarda o numero de vizinhos ativos de cada individuo
@@ -119,33 +84,77 @@ void calculaInfluencia(){
 					}
 				}
 			}
-			
-			//Calcular o novo valor do individuo na matriz auxiliar
 
-			//Se a maiora é bom e correponde a mais que 50% dos vizinhos ativos
-			if(bom > ruim && bom >= int(ativos/2)){
-
-				//Se o individuo era ruim, vira influenciavel
-				if(ma[i][j].valor == 0) maAux[i][j].valor = 1;
-
-				//Se o individuo era influenciavel, vira bom
-				else if(ma[i][j].valor == 1) maAux[i][j].valor = 2;
-				else maAux[i][j].valor = ma[i][j].valor;
+			//Verifica qual a formula do individuo
+			if(ma[i][j].formula == 0){
+				pct  = 0.8;
+				int estado = calculaInfluencia(ma[i][j].valor, bom, ruim, ativos, pct);
+				maAux[i][j].valor = estado;
+				if(estado == -1) maAux[i][j].valor = ma[i][j].valor;
 			}
-
-			//Se a maiora é ruim e correponde a mais que 50% dos vizinhos ativos
-			else if(ruim > bom && ruim >= int(ativos/2)){
-
-				//Se o individuo era bom, vira influenciavel
-				if(ma[i][j].valor == 2) maAux[i][j].valor = 1;
-
-				//Se o individuo era influenciavel, vira ruim
-				else if(ma[i][j].valor == 1) maAux[i][j].valor = 0;
-				else maAux[i][j].valor = ma[i][j].valor;
-
+			else if(ma[i][j].formula == 1){
+				pct  = 0.65;
+				int estado = calculaInfluencia(ma[i][j].valor, bom, ruim, ativos, pct);
+				maAux[i][j].valor = estado;
+				if(estado == -1) maAux[i][j].valor = ma[i][j].valor;		
 			}
-			else maAux[i][j].valor = ma[i][j].valor;
-
+			else if(ma[i][j].formula == 2){
+				pct  = 0.5;
+				int estado = calculaInfluencia(ma[i][j].valor, bom, ruim, ativos, pct);
+				maAux[i][j].valor = estado;
+				if(estado == -1) maAux[i][j].valor = ma[i][j].valor;			
+			}
 		}
 	}	
+	return maAux;
+}
+
+
+int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct){
+
+	//Calcula o novo valor do individuo na matriz auxiliar
+	int estado;
+
+	//Se a maiora é bom 
+	if(bom > ruim){
+
+		//Se o individuo era ruim
+		if(valor == 0){
+			//Se os vizinhos bons forem GRANDE maioria, vira influenciavel
+			if(float(bom/ativos) > pct) estado = 1;
+
+		}
+		//Se o individuo era influenciavel
+		else if(valor == 1){
+			//Se vizinhos bons forem maioria, individuo vira bom
+			if(float(bom/ativos) > pct) estado = 2;
+		} 
+
+		//Se nao mudou de estado, copia o mesmo para na nova matriz
+		else estado = -1;
+	}
+
+	//Se a maiora é ruim
+	else if(ruim > bom){
+
+		//Se o individuo era bom
+		if(valor == 2){
+			//Se os vizinhos ruins forem grande maioria, vira influenciavel
+			if(float(ruim/ativos) > pct) estado = 1;
+		}
+
+		//Se o individuo era influenciavel
+		else if(valor == 1){
+			//Se vizinhos ruins forem maioria, individuo vira ruim
+			if(float(ruim/ativos) > pct) estado = 0;
+		}
+		//Se nao mudou de estado, copia o mesmo para na nova matriz
+		else estado = -1;
+
+	}
+	//Se não houver maioria, copia o valor do individuo para a nova matriz
+	else estado = -1;
+
+	return estado;
+
 }
