@@ -19,6 +19,7 @@ void display()
 	glClear( GL_COLOR_BUFFER_BIT );
 	keyOperations();
  	escreveTitulo();
+ 	/*
  	if (aloca==0){
 		ma = AlocMat();
 		ma1 = AlocMat();
@@ -82,7 +83,7 @@ void display()
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);
 	//glPopMatrix();
-
+	*/
 
     glFlush();
 }

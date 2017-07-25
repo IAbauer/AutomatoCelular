@@ -50,8 +50,9 @@ individuo **maIndividuo;
 
 //Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
 #define TAM_MATRIZ 10
+#define TAM_POP 25
 #define NUM_VIZINHOS 8
-#define NUM_ITERACOES 50
+#define NUM_ITERACOES 20
 
 int iter=0,iter1=0,iter2=0;
 void init(void);
@@ -75,12 +76,10 @@ int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct);
 individuo **copiaMatriz(individuo **maInicial, individuo **ma);
 individuo **copiaAuxFinal(individuo **maAux, individuo **ma);
 individuo **copiaMatrizIndividuo(individuo **maIndividuo, individuo **ma);
-void criaLog(individuo **ma, individuo **maIndividuo, char *nome);
-int qtdIndividuosDiferentes(int ind, individuo **ma);
-int qtdVizinhosDiferentes(Individuo ind);
-float traduzFormula(int ident);
-float calculaAptidao(Individuo ind, individuo **ma);
+void criaLog(individuo *pop, char *nome);
+void calculaAptidaoPopulacao(individuo *pop, individuo *mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
 void normalizaAptidao(void);
-individuo **geraFormacaoIndividuo(individuo **ma);
+individuo *geraFormacaoIndividuo(individuo *pop);
 individuo **AlocMat(void);
+individuo *AlocaVet(void);
 int **FreeMat(int **mat);

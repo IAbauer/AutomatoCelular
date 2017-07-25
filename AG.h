@@ -1,109 +1,119 @@
 
 float numIndividuos = pow(TAM_MATRIZ,2);
 
-int qtdIndividuosDiferentes(int ind, individuo **ma){
+int calculaIndividuosBons(individuo **ma){
 
 	int i,j;
 	float qtd = 0;
 	float pct = 0;
 	for(i=0; i<TAM_MATRIZ; i++){
 		for(j=0; j<TAM_MATRIZ; j++){
-			if(ma[i][j].valor != ind) qtd++;
+			if(ma[i][j].valor == 2) qtd++;
 		}
 	}
 
 	return qtd;
 }
 
-int qtdVizinhosDiferentes(Individuo ind){
-
-	int i,j,k;
-	float qtd = 0;
-	float pct = 0;
-
-	for(k = 0; k< NUM_VIZINHOS; k++){
-		if(ind.vizinhosVal[k] != ind.valor && ind.vizinhosVal[k] != -1) qtd++;
-	}
-
-
-	return qtd;
-
-}
-
-float traduzFormula(int ident){
-	
-	float formula;
-
-	if(ident == 0){
-		formula = 0.8;
-	}
-	else if(ident == 1){
-		formula = 0.65;
-	}
-	else if(ident == 2){
-		formula = 0.5;
-	}
-
-	return formula;
-
-}
-
-//Funcao para calcular a aptidao da populacao
-float calculaAptidao(Individuo ind, individuo **ma){
-
-	float aptidao = 0;
-
-	float indOpostos = qtdIndividuosDiferentes(ind.valor,ma);
-
-	float vizOpostos = qtdVizinhosDiferentes(ind);
-
-	float formula = traduzFormula(ind.formula);
-
-	aptidao = ((1 - formula) + ((vizOpostos/NUM_VIZINHOS)/2.0) + (indOpostos/100.0))/2.0;
-
-	return aptidao;
-}
-
-
-individuo **geraFormacaoIndividuo(individuo **ma){
-	int i,j,k,count;
+individuo *geraFormacaoIndividuo(individuo *pop){
+	int i,k,count;
 
 	//Percore os individuos
+	for(i=0;i<TAM_POP;i++){
+		do{
+			count = 0;
+
+			//Faz a ativação dos vizinhos
+			for(k = 0; k< NUM_VIZINHOS; k++){ 
+				pop[i].vizinhos[k] = rand()%2;
+				if(pop[i].vizinhos[k] == 1) count++;
+			}
+
+		//Garante que pelo menos 3 dos 8 vizinhos estarão ativos
+		}while(count >= 3);
+
+		//Define a formula de mudanca de estado do individuo
+		pop[i].formula = rand()%3;
+
+	}
+    return pop;
+}
+
+individuo **geraMatrizIndividuo(individuo **ma, individuo pop){
+
+	int i, j, k;
+
 	for(i=0;i<TAM_MATRIZ;i++){
 		for(j=0;j<TAM_MATRIZ;j++){
-
-			do{
-				count = 0;
-
-				//Faz a ativação dos vizinhos
-				for(k = 0; k< NUM_VIZINHOS; k++){ 
-					ma[i][j].vizinhos[k] = rand()%2;
-					if(ma[i][j].vizinhos[k] == 1) count++;
-				}
-
-			//Garante que pelo menos 25% dos vizinhos estarão ativos
-			}while(count >= 3);
-
-			//Define a formula de mudanca de estado do individuo
-			ma[i][j].formula = rand()%3;
-
+			ma[i][j] = pop;
 		}
 	}
-    return ma;
+
+	return ma;
 }
 
+void normalizaAptidao(individuo *pop){
 
-void normalizaAptidao(individuo **maIndividuo){
+	int i;
 
-	int i,j;
-
-	for(i=0; i<TAM_MATRIZ; i++){
-		for(j=0; j<TAM_MATRIZ; j++){
-			ma[i][j].aptidao /= 3;
-		}
+	for(i=0; i<TAM_POP; i++){		
+			pop[i].aptidao = pop[i].aptidao/3.0;
 	}
 }
 
+void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2){
+
+	for(int i=0;i<TAM_POP;i++){
+		geraMatrizIndividuo(mIndividuo,pop[i]);
+		for(int j = 0;j<3;j++){
+			//Numero baixo de bons
+			if(j==0){
+
+				copiaMatriz(m,mIndividuo);
+				iniciPMatriz(20,m);
+				for (int k = 0; k<NUM_ITERACOES; k++) m = executaAlgortimoAutomato(m, mAux);
+				float qtdBons = calculaIndividuosBons(m);
+				printf("it(%d):%f\n",j,qtdBons);
+				float apt = (1-(qtdBons/numIndividuos));
+				pop[i].aptidao += apt;
+				printf("ind[%d]:%f\n",i,apt);
+			}
+			//populacao bem dividida
+			else if(j==1){
+
+				copiaMatriz(m1,mIndividuo);
+				iniciPMatriz(50,m1);
+				for (int k = 0; k<NUM_ITERACOES; k++) m1 = executaAlgortimoAutomato(m1, mAux);
+				float qtdBons = calculaIndividuosBons(m1);
+				printf("it(%d):%f\n",j,qtdBons);
+				float modulo = (2*qtdBons/numIndividuos) - 1;
+				if (modulo <0) modulo = -modulo;
+				float apt = 1 - modulo;
+				pop[i].aptidao += apt;
+
+				printf("ind[%d]:%f\n",i,apt);
+			}
+			//Numero alto de bons
+			else if(j==2){
+
+				copiaMatriz(m2,mIndividuo);
+				iniciPMatriz(80,m2);
+				for (int k = 0; k<NUM_ITERACOES; k++) m2 = executaAlgortimoAutomato(m2, mAux);
+				float qtdBons = calculaIndividuosBons(m2);
+				printf("it[%d]:%f\n",j,qtdBons);
+				float apt = qtdBons/numIndividuos;
+				pop[i].aptidao += apt;
+
+				printf("ind(%d):%f\n",i,apt);
+			}
+
+		}
+
+		normalizaAptidao(pop);
+		printf("ind[%d]:normalizado%f\n",i,pop[i].aptidao);
+	}
+
+}
 /*
 void selecionaPopulacao(individuo **maIndividuo){
 	
@@ -120,7 +130,7 @@ void Mutacao(individuo **maIndividuo){
 //Esboco da Rotina do AG
 void executaAlgoritmoGenetico(individuo ** maIndividuo){
 	
-	normalizaAptidao(maIndividuo);
+	calculaAptidaoPopulacao();
 
 	selecionaPopulacao(maIndividuo);
 
