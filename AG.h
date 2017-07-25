@@ -92,3 +92,40 @@ individuo **geraFormacaoIndividuo(individuo **ma){
     return ma;
 }
 
+
+void normalizaAptidao(individuo **maIndividuo){
+
+	int i,j;
+
+	for(i=0; i<TAM_MATRIZ; i++){
+		for(j=0; j<TAM_MATRIZ; j++){
+			ma[i][j].aptidao /= 3;
+		}
+	}
+}
+
+/*
+void selecionaPopulacao(individuo **maIndividuo){
+	
+}
+
+void CrossOver(individuo **maIndividuo){
+
+}
+
+void Mutacao(individuo **maIndividuo){
+
+}
+
+//Esboco da Rotina do AG
+void executaAlgoritmoGenetico(individuo ** maIndividuo){
+	
+	normalizaAptidao(maIndividuo);
+
+	selecionaPopulacao(maIndividuo);
+
+	CrossOver(maIndividuo);
+
+	Mutacao(maIndividuo);
+}
+*/

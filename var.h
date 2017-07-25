@@ -15,7 +15,7 @@ typedef struct Individuo{
 	int formula;
 	int vizinhos[8];
     int vizinhosVal[8];
-
+    float aptidao;
 }individuo;
 
 //int x,y;
@@ -41,6 +41,7 @@ individuo **ma1;
 individuo **ma2;
 individuo **maAux;
 individuo **maInicial;
+individuo **maIndividuo;
 
 //Matriz Original que será mostrada graficamente no OpenGL, deixar apenas essa ser global (e futuramente a maFinal)
 //individuo **maInicial;
@@ -73,11 +74,13 @@ individuo **mudaEstado(individuo **ma,individuo **maAux);
 int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct);
 individuo **copiaMatriz(individuo **maInicial, individuo **ma);
 individuo **copiaAuxFinal(individuo **maAux, individuo **ma);
-void criaLog(individuo **ma,char *nome);
+individuo **copiaMatrizIndividuo(individuo **maIndividuo, individuo **ma);
+void criaLog(individuo **ma, individuo **maIndividuo, char *nome);
 int qtdIndividuosDiferentes(int ind, individuo **ma);
 int qtdVizinhosDiferentes(Individuo ind);
 float traduzFormula(int ident);
 float calculaAptidao(Individuo ind, individuo **ma);
+void normalizaAptidao(void);
 individuo **geraFormacaoIndividuo(individuo **ma);
 individuo **AlocMat(void);
 int **FreeMat(int **mat);
