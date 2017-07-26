@@ -1,6 +1,12 @@
 
-individuo *AlocaVet(){
-   individuo *vet = (individuo *)calloc(TAM_POP, sizeof(individuo));
+individuo **AlocaVet(){
+
+   individuo **vet = (individuo **)calloc(TAM_POP, sizeof(individuo*));
+
+   for(int i = 0; i< 2; i++){
+      vet[i] = (individuo *)calloc(TAM_POP, sizeof(individuo));
+   }
+
    return vet;
 }
 individuo **AlocMat(){

@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 typedef struct Individuo{
 	float valor;
 	int formula;
@@ -19,7 +18,7 @@ typedef struct Individuo{
     int geracao;
 }individuo;
 
-bool flag_Pop;
+int flag_Pop = 0;
 //int x,y;
 char ruim[]="RUIM";
 char influ[]="INFLUENCIAVEL";
@@ -52,10 +51,12 @@ individuo **maIndividuo;
 
 //Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
 #define TAM_MATRIZ 10
-#define TAM_POP 25
+#define TAM_POP 40
 #define NUM_VIZINHOS 8
 #define NUM_ITERACOES 20
+#define NUM_GERACOES 10
 #define fator_L 5.00
+#define APTDINICIAL -1
 
 int iter=0,iter1=0,iter2=0;
 void init(void);
@@ -79,16 +80,19 @@ int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct);
 individuo **copiaMatriz(individuo **maInicial, individuo **ma);
 individuo **copiaAuxFinal(individuo **maAux, individuo **ma);
 individuo **copiaMatrizIndividuo(individuo **maIndividuo, individuo **ma);
-void criaLog(individuo *pop, char *nome);
-void calculaAptidaoPopulacao(individuo *pop, individuo *mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
-void normalizaAptidao(void);
-individuo *geraFormacaoIndividuo(individuo *pop);
+void criaLog(individuo **pop);
+void calculaAptidaoPopulacao(individuo **pop, individuo *mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
+void normalizaAptidao(individuo **pop);
+individuo **geraFormacaoIndividuo(individuo **pop);
 individuo **AlocMat(void);
-individuo *AlocaVet(void);
+individuo **AlocaVet(void);
 int **FreeMat(int **mat);
-void executaAlgoritmoGenetico(void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2));
-void Mutacao(int filho,int valor);
-void CrossOver(individuo pai1,invidivuo pai2, individuo filho1, individuo filho2);
-void selecionaPopulacao(individuo **maIndividuo);
-double fncAleatorios_AleatorioReal(double low , double high);
-
+void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
+void Mutacao(individuo **pop, int filho);
+void CrossOver(individuo **pop, int pai1,int pai2, int filho1, int filho2);
+void selecaoPopulacao(individuo **populacao, long int geracao);
+//funcs aleatorio
+double fncAleatorios_AleatorioRealEntre_0_e_1();
+long int fncAleatorios_AleatorioInteiro(long int low, long int high);
+double fncAleatorios_AleatorioReal(double lo , double hi);
+void QuicksortDecrescente(individuo **populacao, long int esq, long int dir);

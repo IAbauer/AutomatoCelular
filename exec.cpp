@@ -15,26 +15,14 @@ int main(int argc, char *argv[])
     maAux = AlocMat();
     maInicial=AlocMat();
     maIndividuo=AlocMat();
-    individuo *pop = AlocaVet();
-    individuo *popAuce = AlocaVet();
+    individuo **pop = AlocaVet();
     //Cria a populacao inicial
     pop = geraFormacaoIndividuo(pop);
 
 
     executaAlgoritmoGenetico(pop,maIndividuo,maAux,ma,ma1,ma2);
-    //Alocacao das Matrizes
-    
-    //display(m,m1,m2,mAux,mInicial);
-    //Obter a % de individuos bons
-    //printf("\nInsira a porcentagem de inimigos bons inicial!\n");
-    //scanf("%i",&n);
 
-    //matriz= AlocMat(10, 10);
-    //Inicializar a matriz principal
-    //ma = iniciPMatriz(n);
-
-    //copiaMatriz();
-    //ativacaoTeste();
+    criaLog(pop);
 
  ////OPENGL FUNCS 
     glutInit( &argc, argv );

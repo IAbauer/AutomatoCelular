@@ -32,13 +32,18 @@ individuo **copiaAuxFinal(individuo **maAux, individuo **ma){
     return ma;
 }
 
-void criaLog(individuo *pop, char *nome){
+void criaLog(individuo **pop){
 	
-	int i;
-    FILE* file = fopen(nome,"w");
+	int i,j;
+    FILE* file = fopen("resultadoAG.txt","w");
 	if(file){
 		for(i=0; i<TAM_POP; i++){
-			fprintf(file,"%.3f, ",pop[i].aptidao);
+            fprintf(file,"G:%d",pop[flag_Pop][i].geracao);
+            fprintf(file,"   ");
+            fprintf(file,"F:%d ",pop[flag_Pop][i].formula);
+            fprintf(file,"Vizinhos: ");
+            for(j = 0; j< NUM_VIZINHOS; j++) fprintf(file,"%d, ",pop[!flag_Pop][i].vizinhos[j]);
+			fprintf(file,"%.3f\n",pop[flag_Pop][i].aptidao);
 		}
 	}
 	fclose(file);

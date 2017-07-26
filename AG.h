@@ -14,6 +14,10 @@ int calculaIndividuosBons(individuo **ma){
 
 	return qtd;
 }
+double fncAleatorios_AleatorioRealEntre_0_e_1() {
+	
+	return((double) rand()/RAND_MAX);
+}
 
 double fncAleatorios_AleatorioReal(double low , double high) {
 	
@@ -39,7 +43,7 @@ int fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(long int tam_Pop) {
 	return K + 1;
 }
 
-individuo *geraFormacaoIndividuo(individuo *pop){
+individuo **geraFormacaoIndividuo(individuo **pop){
 	int i,k,count;
 
 	//Percore os individuos
@@ -49,15 +53,15 @@ individuo *geraFormacaoIndividuo(individuo *pop){
 
 			//Faz a ativação dos vizinhos
 			for(k = 0; k< NUM_VIZINHOS; k++){ 
-				pop[i].vizinhos[k] = rand()%2;
-				if(pop[i].vizinhos[k] == 1) count++;
+				pop[flag_Pop][i].vizinhos[k] = rand()%2;
+				if(pop[flag_Pop][i].vizinhos[k] == 1) count++;
 			}
 
 		//Garante que pelo menos 3 dos 8 vizinhos estarão ativos
 		}while(count >= 3);
 
 		//Define a formula de mudanca de estado do individuo
-		pop[i].formula = rand()%3;
+		pop[flag_Pop][i].formula = rand()%3;
 
 	}
     return pop;
@@ -76,19 +80,19 @@ individuo **geraMatrizIndividuo(individuo **ma, individuo pop){
 	return ma;
 }
 
-void normalizaAptidao(individuo *pop){
+void normalizaAptidao(individuo **pop){
 
 	int i;
 
 	for(i=0; i<TAM_POP; i++){		
-			pop[i].aptidao = pop[i].aptidao/3.0;
+			pop[flag_Pop][i].aptidao = pop[flag_Pop][i].aptidao/3.0;
 	}
 }
 
-void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2){
+void calculaAptidaoPopulacao(individuo **pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2){
 
 	for(int i=0;i<TAM_POP;i++){
-		geraMatrizIndividuo(mIndividuo,pop[i]);
+		geraMatrizIndividuo(mIndividuo,pop[flag_Pop][i]);
 		for(int j = 0;j<3;j++){
 			//Numero baixo de bons
 			if(j==0){
@@ -97,10 +101,8 @@ void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo *
 				iniciPMatriz(20,m);
 				for (int k = 0; k<NUM_ITERACOES; k++) m = executaAlgortimoAutomato(m, mAux);
 				float qtdBons = calculaIndividuosBons(m);
-				printf("it(%d):%f\n",j,qtdBons);
 				float apt = (1-(qtdBons/numIndividuos));
-				pop[i].aptidao += apt;
-				printf("ind[%d]:%f\n",i,apt);
+				pop[flag_Pop][i].aptidao += apt;
 			}
 			//populacao bem dividida
 			else if(j==1){
@@ -109,13 +111,10 @@ void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo *
 				iniciPMatriz(50,m1);
 				for (int k = 0; k<NUM_ITERACOES; k++) m1 = executaAlgortimoAutomato(m1, mAux);
 				float qtdBons = calculaIndividuosBons(m1);
-				printf("it(%d):%f\n",j,qtdBons);
 				float modulo = (2*qtdBons/numIndividuos) - 1;
 				if (modulo <0) modulo = -modulo;
 				float apt = 1 - modulo;
-				pop[i].aptidao += apt;
-
-				printf("ind[%d]:%f\n",i,apt);
+				pop[flag_Pop][i].aptidao += apt;
 			}
 			//Numero alto de bons
 			else if(j==2){
@@ -124,173 +123,177 @@ void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo *
 				iniciPMatriz(80,m2);
 				for (int k = 0; k<NUM_ITERACOES; k++) m2 = executaAlgortimoAutomato(m2, mAux);
 				float qtdBons = calculaIndividuosBons(m2);
-				printf("it[%d]:%f\n",j,qtdBons);
 				float apt = qtdBons/numIndividuos;
-				pop[i].aptidao += apt;
-
-				printf("ind(%d):%f\n",i,apt);
+				pop[flag_Pop][i].aptidao += apt;
 			}
 
 		}
-
-		normalizaAptidao(pop);
-		printf("ind[%d]:normalizado%f\n",i,pop[i].aptidao);
 	}
+	normalizaAptidao(pop);
+}
 
-}
-bool fncInd_MeuComparador(tipo_Individuo i1, tipo_Individuo i2) {
-	return i1.aptidao > i2.aptidao;
-}
-bool fncInd_OrdenacaoDecrescenteDaPopulacaoAtual() {
-	// Executa o sort do c++.
-	std::sort(pop, pop+TAM_POP, fncInd_MeuComparador);
+void QuicksortDecrescente(individuo **populacao, long int esq, long int dir) {
+	long int i, j;
+	float x;
+	individuo aux_Ind;
+	bool flag_Break;
 	
-	return true;
+	i = esq;
+	j = dir;
+	x = populacao[flag_Pop][(esq + dir) / 2].aptidao;
+	
+	do {
+		flag_Break = false;
+		while ((!flag_Break) && (i < dir)) {
+			if (x < populacao[flag_Pop][i].aptidao) {
+				i++;
+			}
+			else {
+				flag_Break = true;
+			}
+		}
+		flag_Break = false;
+		while ((!flag_Break) && (j > esq)) {
+			if (x > populacao[flag_Pop][j].aptidao) {
+				j--;
+			}
+			else {
+				flag_Break = true;
+			}
+		}
+		if (i <= j) {
+			aux_Ind = populacao[flag_Pop][i];
+			populacao[flag_Pop][i] = populacao[flag_Pop][j];
+			populacao[flag_Pop][j] = aux_Ind;
+			
+			i++;
+			j--;
+		}
+	} while (i <= j);
+	if (esq < j) {
+		QuicksortDecrescente(populacao, esq, j);
+	}
+	if (i < dir) {
+		QuicksortDecrescente(populacao, i, dir);
+	}
 }
 
-void selecionaPopulacao(individuo **maIndividuo){
-		int elite,rand1,rand2,entrou=0;
+void selecaoPopulacao(individuo **populacao, long int geracao) {
+	long int i, g, ind1, ind2;
+	long int aux_TamPop;
+	
 	// Ordena decrescente da populacao de individuos.
-	fncInd_OrdenacaoDecrescenteDaPopulacaoAtual();
+	QuicksortDecrescente(populacao,0,TAM_POP-1);
 	
 	// Seleciona a elite que passa pra proxima geracao sem modificacao.
 	// Ou seja, copia os individuos mais aptos para a nova geracao.
-	elite = int(TAM_POP * 0.5);
-	if(entrou==0){
-		for (int i =0; i<elite; i++) {
-				for (int g=0; g<TAM_POP; g++) {
-					popAUce[i].genes[g] = pop[i].vizinhos[g];
-				}
-				popAuce[i].geracao = pop[i].geracao;
-				popAuce[i].aptidao = pop[i].aptidao;
+	aux_TamPop = int(TAM_POP * 0.1);
+	for (i=0; i<aux_TamPop; i++) {
+		for (g=0; g<NUM_VIZINHOS; g++) {
+			populacao[!flag_Pop][i].vizinhos[g] = populacao[flag_Pop][i].vizinhos[g];
 		}
-	}else if(entrou==1){
-		for (int i =0; i<elite; i++) {
-			for (int g=0; g<TAM_POP; g++) {
-				pop[i].genes[g] = popAuce[i].vizinhos[g];
-			}
-			pop[i].geracao = popAuce[i].geracao;
-			pop[i].aptidao = popAuce[i].aptidao;
-		}
+		populacao[!flag_Pop][i].formula = populacao[flag_Pop][i].formula;
+		populacao[!flag_Pop][i].geracao = populacao[flag_Pop][i].geracao;
+		populacao[!flag_Pop][i].aptidao = populacao[flag_Pop][i].aptidao;
 	}
 	
 	// Ate formar a nova geracao realiza a roleta.
-	while (elite < TAM_POP) {
-		// Captura dois individuos na roleta com Normalizacao Linear
-		rand1 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
-		rand2 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
+	while (aux_TamPop < TAM_POP) {
+		// Captura dois individuos na roleta com Normalizacao Linear.
+		ind1 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
+		ind2 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
+		
 		// Crossover e Mutacao
-		if (elite < (TAM_POP-1)) { // Se faltam 2 ou mais individuos para serem gerados.
-			
+		if (aux_TamPop < (TAM_POP-1)) { // Se faltam 2 ou mais individuos para serem gerados.
 			// Realiza o crossover
-			if(entrou==0)Crossover(pop[rand1], pop[rand2], popAuce[elite], popAuce[elite+1]);
-			else if (entrou==1)Crossover(popAuce[rand1], popAuce[rand2], pop[elite], pop[elite+1]);
+			CrossOver(populacao,ind1, ind2, aux_TamPop, (aux_TamPop+1));
 			
 			// Realiza a mutacao nos novos individuos.
-			Mutacao(elite,entrou);
-			Mutacao(elite+1entrou);
-			if(entrou==0){
-				popAuce[elite].geracao = geracao;
-				popAuce[elite].aptidao = APTDINICIAL;
-				elite++;
-				
-				popAuce[elite].geracao = geracao;
-				popAuce[elite].aptidao = APTDINICIAL;
-				elite++;
-			}else if(entrou==1){
-				pop[elite].geracao = geracao;
-				pop[elite].aptidao = APTDINICIAL;
-				elite++;
-
-				pop[elite].geracao = geracao;
-				pop[elite].aptidao = APTDINICIAL;
-				elite++;
-			}
+			Mutacao(populacao,aux_TamPop);
+			Mutacao(populacao,aux_TamPop+1);
+			
+			populacao[!flag_Pop][aux_TamPop].geracao = geracao;
+			populacao[!flag_Pop][aux_TamPop].aptidao = APTDINICIAL;
+			aux_TamPop++;
+			
+			populacao[!flag_Pop][aux_TamPop].geracao = geracao;
+			populacao[!flag_Pop][aux_TamPop].aptidao = APTDINICIAL;
+			aux_TamPop++;
 		}
 		else { // Caso falte somente um individuo para ser gerado
 			// Realiza o crossover
-			fncAG_Crossover2cortes(ind1, ind2, aux_TamPop, -1);
+			CrossOver(populacao,ind1, ind2, aux_TamPop, -1);
 			
 			// Realiza a mutacao no novo individuo.
-			fncAG_Mutacao(elite,entrou);
-			if(entrou==0){
-				popAuce[elite].geracao = geracao;
-				popAuce[elite].aptidao = APTDINICIAL;
-				elite++;
-			}
-			else if(entrou==1){
-				pop[elite].geracao = geracao;
-				pop[elite].aptidao = APTDINICIAL;
-				elite++;
-			}
+			Mutacao(populacao,aux_TamPop);
+			
+			populacao[!flag_Pop][aux_TamPop].geracao = geracao;
+			populacao[!flag_Pop][aux_TamPop].aptidao = APTDINICIAL;
+			aux_TamPop++;
 		}
 	}
-	if(entrou==0)entrou=1;
-	else if(entrou==1)=0;
+	
+	flag_Pop = !flag_Pop;
 }
 
-void CrossOver(individuo pai1,invidivuo pai2, individuo filho1, individuo filho2){
+void CrossOver(individuo **pop, int pai1,int pai2, int filho1, int filho2){
 
-		// Copia os genes que ficam antes do ponto de corte.
-		filho1.formula = pai1.formula;
-		filho2.formula = pai2.formula;
+		// Copia os vizinhos que ficam antes do ponto de corte.
+		pop[!flag_Pop][filho1].formula = pop[!flag_Pop][pai1].formula;
+		if(filho2 != -1) pop[!flag_Pop][filho2].formula = pop[!flag_Pop][pai2].formula;
 		for( int i =0 ; i < NUM_VIZINHOS ; i++){
-			filho1.vizinhos[i] = pai2.vizinhos[i];
-			filho2.vizinhos[i] = pai1.vizinhos[i];
+			pop[!flag_Pop][filho1].vizinhos[i] = pop[!flag_Pop][pai2].vizinhos[i];
+			if(filho2 != -1) pop[!flag_Pop][filho2].vizinhos[i] = pop[!flag_Pop][pai1].vizinhos[i];
 		}
 }
 		
 
 	
 
-void Mutacao(int filho,int valor,individuo **popAuce,individuo **pop){
-	int g, novo,rand,mutacao;
-		mutacao = rand()%10;
-	// Sorteia a escolha por realizar mutacao.
-	//if (fncAleatorios_Probabilidade(0.5)) {
-		// Sorteia o gene que sofrerah mutacao.
-		g = rand()%NUM_VIZINHOS;
-		if(mutacao<5){
-		// Sorteia o novo valor do gene, que deve ser diferente do atual.
-			if(valor==0){
-				do {
-					novo = rand()%2;
-				} while (novo == popAuce[filho].vizinho[g]);
-				
-				// Realiza a mutacao do gene.
-				popAuce[filho].genes[g] = novo;
-			}else if(valor==1){
-				do {
-					novo = rand()%2;
-				} while (novo == pop[filho].vizinhos[g]);
+void Mutacao(individuo **pop, int filho){
+	int g, novo, mutacao, chance;
 
-				// Realiza a mutacao do gene.
-				pop[filho].vizinhos[g] = novo;
-			}
-	}else if(mutacao==5){
-				if(valor==0){
-				do {
-					novo = rand()%3;
-				} while (novo == popAuce[filho].formula);
-				
-				// Realiza a mutacao do gene.
-				popAuce[filho].formula = novo;
-			}else if(valor==1){
-				do {
-					novo = rand()%3;
-				} while (novo == pop[filho].formula);
+	mutacao=rand()%10;
+	chance=rand()%100;
 
-				// Realiza a mutacao do gene.
-				pop[filho].formula = novo;
-			}
+	g=rand()%NUM_VIZINHOS;
+
+	// 
+	if(chance < 1){
+		if(mutacao <= 8){
+			// Sorteia o novo valor do vizinho, que deve ser diferente do atual.
+			do {
+				novo=rand()%2;
+			} while (novo == pop[!flag_Pop][filho].vizinhos[g]);
+			
+			// Realiza a mutacao do vizinho.
+			pop[!flag_Pop][filho].vizinhos[g] = novo;
+
+		}else if(mutacao > 8){
+			// Sorteia a nova formula do individuo
+			do {
+				novo=rand()%3;
+			} while (novo == pop[!flag_Pop][filho].formula);
+			
+			// Realiza a mutacao da formula.
+			pop[!flag_Pop][filho].formula = novo;
+				
+		}
 	}
 }
 
-//Esboco da Rotina do AG
-void executaAlgoritmoGenetico(void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2)){
+// Rotina do AG
+void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2){
 
+	for(int i=0;i<NUM_GERACOES;i++){
+		//Calcula a aptidao da geracao atual
+		calculaAptidaoPopulacao(pop,maIndividuo,maAux,ma,ma1,ma2);
+
+		//Selecao dos pais para gerar os filhos da prox geracao
+		selecaoPopulacao(pop, i );
+
+	}
+
+	//Calcular a aptidao da ultima geracao
 	calculaAptidaoPopulacao(pop,maIndividuo,maAux,ma,ma1,ma2);
-
-	selecionaPopulacao(maIndividuo);
-
 }
