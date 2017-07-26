@@ -41,7 +41,7 @@ individuo **AlocMat(){
 }
 
 
-int **FreeMat(int **mat) {
+void **FreeMat(int **mat) {
    // variável 'i' que servirá como contador.
    int i;
 
@@ -63,6 +63,5 @@ int **FreeMat(int **mat) {
    for (i = 0 ; i < TAM_MATRIZ ; i++) free(mat[i]);
    // libera a matriz em si.
    free(mat);
-   // retorna NULL.
-   return NULL;   
+   // retorna NULL.   
 }

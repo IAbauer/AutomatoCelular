@@ -301,11 +301,11 @@ void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo
 	//Calcular a aptidao da ultima geracao
 	calculaAptidaoPopulacao(pop,maIndividuo,maAux,ma,ma1,ma2);
 
-/*
+
 	// Individuos para a simulacao
 	// Ordena a geracao
 	QuicksortDecrescente(pop,0,TAM_POP-1);
-	individuo melhorInd = pop[flag_Pop][0];
-	individuo piorInd =  pop[flag_Pop][TAM_POP-1];
-*/
+	melhorInd = pop[flag_Pop][0];
+	piorInd =  pop[flag_Pop][TAM_POP-1];
+
 }
