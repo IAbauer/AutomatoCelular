@@ -28,31 +28,37 @@ individuo **armazenaVizinhos(individuo **ma){
 	for(i = 0; i < TAM_MATRIZ; i++){
 		for(j = 0; j < TAM_MATRIZ; j++){
 
-			//Inicia todos com -1
-			for(k = 0; k< NUM_VIZINHOS; k++) ma[i][j].vizinhosVal[k] = -1;
-			n = 0;
+			//Percorre o vetor de  vizinhos
+			for(k = 0; k< NUM_VIZINHOS; k++){
 
-			//Percorre todos os vizinhos
-			for(l = i-1;l<i+2;l++){
-				for(c = j-1;c<j+2;c++){
+				//Percorre todos os vizinhos
+				for(l = i-1; l<i+2; l++){
+					for(c = j-1; c<j+2; c++){
 
-					//Tratamento das bordas
-					if((l>=0 && l<TAM_MATRIZ) && (c>=0  && c <TAM_MATRIZ)){
+						if((l>=0 && l<TAM_MATRIZ) && (c>=0 && c<TAM_MATRIZ)){
+							//Ignora o proprio individuo
+							if(!(l==i && c==j)){
 
-						//Ignora o proprio individuo
-						if(!(l==i && c==j)){
+								//Atribui o valor do vizinho
+								ma[i][j].vizinhosVal[k] = ma[l][c].valor;
 
-							//Atribui o valor do vizinho
-							ma[i][j].vizinhosVal[n] = ma[l][c].valor;
-							//printf("individuo [%d][%d]: valorVizinho[%d](%d,%d):%d\n",i,j,n,l,c,ma[i][j].vizinhosVal[n]);
-							n++;
+							}
+						}
+						
+						//Tratamento das bordas
+						if(l==-1){
+							if(c == -1) ma[i][j].vizinhosVal[k] = ma[TAM_MATRIZ-1][TAM_MATRIZ-1].valor;
+							if(c == 10) ma[i][j].vizinhosVal[k] = ma[TAM_MATRIZ-1][0].valor;
+							else ma[i][j].vizinhosVal[k] = ma[TAM_MATRIZ-1][c].valor;
+						}						
+						if(l==10){
+							if(c == -1) ma[i][j].vizinhosVal[k] = ma[0][TAM_MATRIZ-1].valor;
+							if(c == 10) ma[i][j].vizinhosVal[k] = ma[0][0].valor;
+							else ma[i][j].vizinhosVal[k] = ma[0][c].valor;
 						}
 					}
-
 				}
-
 			}
-			
 		}
 	}
 	return ma;
