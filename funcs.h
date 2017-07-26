@@ -19,53 +19,58 @@ void display()
 	glClear( GL_COLOR_BUFFER_BIT );
 	keyOperations();
  	escreveTitulo();
+ 	/*
  	if (aloca==0){
 		ma = AlocMat();
 		ma1 = AlocMat();
 		ma2 = AlocMat();
 		maAux = AlocMat();
 		maInicial=AlocMat();
+		maIndividuo=AlocMat();
+		//Matriz principal que guarda a formacao dos individuos para as 3 iteracoes
+		maIndividuo = geraFormacaoIndividuo(maIndividuo);
  		aloca=1;
  	}
  	if (f20==1){
  		if(flag20==0){
+ 			//Copia a formacao dos individuos da matriz maIndividuo
+ 			ma = copiaMatrizIndividuo(maIndividuo,ma);
+ 			//Inicia os valores dos individuos
  			ma = iniciPMatriz(20,ma);
- 			ma = geraFormacaoIndividuo(ma);
  			maInicial = copiaMatriz(maInicial,ma);
  			flag20=1;
  		}
  		if(iter<NUM_ITERACOES){
  			ma = executaAlgortimoAutomato(ma,maAux);
  			iter++;
- 			printf("%d \n",iter);
- 		if(iter == 49) criaLog(ma,nome);
- 	}
+ 		if(iter == 49) criaLog(ma,maIndividuo,nome);
  		tituloIni(1);
+ 		}
  	}else if(f50==1){
  		if(flag50==0){
+ 			ma1 = copiaMatrizIndividuo(maIndividuo,ma1);
  			ma1 = iniciPMatriz(50,ma1);
- 			ma1 = geraFormacaoIndividuo(ma1);
  			maInicial = copiaMatriz(maInicial,ma1);
  			flag50=1;
  		}
  		if(iter1<NUM_ITERACOES){
  			ma1 = executaAlgortimoAutomato(ma1,maAux);
  			iter1++;
- 		if(iter1 == 49) criaLog(ma1,nome1);
+ 		if(iter1 == 49) criaLog(ma1,maIndividuo,nome1);
  		}
  		tituloIni(2);
  	}else if(f80==1){
  		if(flag80==0){
+ 			ma2 = copiaMatrizIndividuo(maIndividuo,ma2);
  			ma2 = iniciPMatriz(80,ma2);
- 			ma2 =geraFormacaoIndividuo(ma2);
  			maInicial = copiaMatriz(maInicial,ma2);
  			flag80=1;
  		}
  		if(iter2<NUM_ITERACOES){
  			ma2 = executaAlgortimoAutomato(ma2,maAux);
  			iter2++;
- 		if(iter2 == 49) criaLog(ma2,nome2);
- 	}
+ 		if(iter2 == 49) criaLog(ma2,maIndividuo,nome2);
+ 		}
  		tituloIni(3);
  	}
  	drawFirstM(maInicial);
@@ -73,12 +78,12 @@ void display()
  	drawFinalM50(ma1);
  	drawFinalM80(ma2);
  	//if(teclas['a']==true)
-
+	
  	//glPushMatrix();
 		//glTranslatef(, ,0 );
 		//drawQuads(1,1,1);
 	//glPopMatrix();
-
+	*/
 
     glFlush();
 }

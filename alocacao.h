@@ -1,5 +1,8 @@
 
-
+individuo *AlocaVet(){
+   individuo *vet = (individuo *)calloc(TAM_POP, sizeof(individuo));
+   return vet;
+}
 individuo **AlocMat(){
 	// declara a variável 'i' que servirá como contador, e um ponteiro
    // para ponteiros '**v' que receberá a matriz alocada e será o

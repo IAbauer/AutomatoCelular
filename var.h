@@ -15,9 +15,11 @@ typedef struct Individuo{
 	int formula;
 	int vizinhos[8];
     int vizinhosVal[8];
-
+    float aptidao;
+    int geracao;
 }individuo;
 
+bool flag_Pop;
 //int x,y;
 char ruim[]="RUIM";
 char influ[]="INFLUENCIAVEL";
@@ -41,6 +43,7 @@ individuo **ma1;
 individuo **ma2;
 individuo **maAux;
 individuo **maInicial;
+individuo **maIndividuo;
 
 //Matriz Original que será mostrada graficamente no OpenGL, deixar apenas essa ser global (e futuramente a maFinal)
 //individuo **maInicial;
@@ -49,8 +52,10 @@ individuo **maInicial;
 
 //Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
 #define TAM_MATRIZ 10
+#define TAM_POP 25
 #define NUM_VIZINHOS 8
-#define NUM_ITERACOES 50
+#define NUM_ITERACOES 20
+#define fator_L 5.00
 
 int iter=0,iter1=0,iter2=0;
 void init(void);
@@ -73,11 +78,17 @@ individuo **mudaEstado(individuo **ma,individuo **maAux);
 int calculaInfluencia(int valor, int bom, int ruim, int ativos, float pct);
 individuo **copiaMatriz(individuo **maInicial, individuo **ma);
 individuo **copiaAuxFinal(individuo **maAux, individuo **ma);
-void criaLog(individuo **ma,char *nome);
-int qtdIndividuosDiferentes(int ind, individuo **ma);
-int qtdVizinhosDiferentes(Individuo ind);
-float traduzFormula(int ident);
-float calculaAptidao(Individuo ind, individuo **ma);
-individuo **geraFormacaoIndividuo(individuo **ma);
+individuo **copiaMatrizIndividuo(individuo **maIndividuo, individuo **ma);
+void criaLog(individuo *pop, char *nome);
+void calculaAptidaoPopulacao(individuo *pop, individuo *mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
+void normalizaAptidao(void);
+individuo *geraFormacaoIndividuo(individuo *pop);
 individuo **AlocMat(void);
+individuo *AlocaVet(void);
 int **FreeMat(int **mat);
+void executaAlgoritmoGenetico(void calculaAptidaoPopulacao(individuo *pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2));
+void Mutacao(int filho,int valor);
+void CrossOver(individuo pai1,invidivuo pai2, individuo filho1, individuo filho2);
+void selecionaPopulacao(individuo **maIndividuo);
+double fncAleatorios_AleatorioReal(double low , double high);
+

@@ -9,6 +9,19 @@ int main(int argc, char *argv[])
 {		
 		srand(time(NULL));
 
+    ma = AlocMat();
+    ma1 = AlocMat();
+    ma2 = AlocMat();
+    maAux = AlocMat();
+    maInicial=AlocMat();
+    maIndividuo=AlocMat();
+    individuo *pop = AlocaVet();
+    individuo *popAuce = AlocaVet();
+    //Cria a populacao inicial
+    pop = geraFormacaoIndividuo(pop);
+
+
+    executaAlgoritmoGenetico(pop,maIndividuo,maAux,ma,ma1,ma2);
     //Alocacao das Matrizes
     
     //display(m,m1,m2,mAux,mInicial);
