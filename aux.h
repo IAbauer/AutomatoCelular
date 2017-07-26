@@ -37,13 +37,23 @@ void criaLog(individuo **pop){
 	int i,j;
     FILE* file = fopen("resultadoAG.txt","w");
 	if(file){
+        fprintf(file,"G:Geração;    F:Fórmula;     V:Vizinhos;     A:Aptidão\n");
+        fprintf(file,"\n");
 		for(i=0; i<TAM_POP; i++){
             fprintf(file,"G:%d",pop[flag_Pop][i].geracao);
             fprintf(file,"   ");
             fprintf(file,"F:%d ",pop[flag_Pop][i].formula);
-            fprintf(file,"Vizinhos: ");
-            for(j = 0; j< NUM_VIZINHOS; j++) fprintf(file,"%d, ",pop[!flag_Pop][i].vizinhos[j]);
-			fprintf(file,"%.3f\n",pop[flag_Pop][i].aptidao);
+            fprintf(file,"   ");
+            fprintf(file,"V: ");
+            for(j = 0; j< NUM_VIZINHOS; j++){
+
+                if(j == 0) fprintf(file,"[%d, ",pop[!flag_Pop][i].vizinhos[j]);
+                if(j == NUM_VIZINHOS -1) fprintf(file,"%d]",pop[!flag_Pop][i].vizinhos[j]);
+                else fprintf(file,"%d, ",pop[!flag_Pop][i].vizinhos[j]);
+
+            }
+            fprintf(file,"   ");
+            fprintf(file,"A:%.3f\n",pop[flag_Pop][i].aptidao);
 		}
 	}
 	fclose(file);

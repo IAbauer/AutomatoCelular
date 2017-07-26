@@ -58,10 +58,11 @@ individuo **geraFormacaoIndividuo(individuo **pop){
 			}
 
 		//Garante que pelo menos 3 dos 8 vizinhos estarão ativos
-		}while(count >= 3);
+		}while(count <= 3);
 
 		//Define a formula de mudanca de estado do individuo
 		pop[flag_Pop][i].formula = rand()%3;
+		pop[flag_Pop][i].aptidao = APTDINICIAL;
 
 	}
     return pop;
@@ -80,56 +81,49 @@ individuo **geraMatrizIndividuo(individuo **ma, individuo pop){
 	return ma;
 }
 
-void normalizaAptidao(individuo **pop){
-
-	int i;
-
-	for(i=0; i<TAM_POP; i++){		
-			pop[flag_Pop][i].aptidao = pop[flag_Pop][i].aptidao/3.0;
-	}
-}
-
 void calculaAptidaoPopulacao(individuo **pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2){
 
 	for(int i=0;i<TAM_POP;i++){
 		geraMatrizIndividuo(mIndividuo,pop[flag_Pop][i]);
-		for(int j = 0;j<3;j++){
-			//Numero baixo de bons
-			if(j==0){
+		if(pop[flag_Pop][i].aptidao == APTDINICIAL){
+			for(int j = 0;j<3;j++){
+				//Numero baixo de bons
+				if(j==0){
 
-				copiaMatriz(m,mIndividuo);
-				iniciPMatriz(20,m);
-				for (int k = 0; k<NUM_ITERACOES; k++) m = executaAlgortimoAutomato(m, mAux);
-				float qtdBons = calculaIndividuosBons(m);
-				float apt = (1-(qtdBons/numIndividuos));
-				pop[flag_Pop][i].aptidao += apt;
+					copiaMatriz(m,mIndividuo);
+					iniciPMatriz(20,m);
+					for (int k = 0; k<NUM_ITERACOES; k++) m = executaAlgortimoAutomato(m, mAux);
+					float qtdBons = calculaIndividuosBons(m);
+					float apt = (1-(qtdBons/numIndividuos));
+					pop[flag_Pop][i].aptidao += apt;
+				}
+				//populacao bem dividida
+				else if(j==1){
+
+					copiaMatriz(m1,mIndividuo);
+					iniciPMatriz(50,m1);
+					for (int k = 0; k<NUM_ITERACOES; k++) m1 = executaAlgortimoAutomato(m1, mAux);
+					float qtdBons = calculaIndividuosBons(m1);
+					float modulo = (2*qtdBons/numIndividuos) - 1;
+					if (modulo <0) modulo = -modulo;
+					float apt = 1 - modulo;
+					pop[flag_Pop][i].aptidao += apt;
+				}
+				//Numero alto de bons
+				else if(j==2){
+
+					copiaMatriz(m2,mIndividuo);
+					iniciPMatriz(80,m2);
+					for (int k = 0; k<NUM_ITERACOES; k++) m2 = executaAlgortimoAutomato(m2, mAux);
+					float qtdBons = calculaIndividuosBons(m2);
+					float apt = qtdBons/numIndividuos;
+					pop[flag_Pop][i].aptidao += apt;
+				}
+
 			}
-			//populacao bem dividida
-			else if(j==1){
-
-				copiaMatriz(m1,mIndividuo);
-				iniciPMatriz(50,m1);
-				for (int k = 0; k<NUM_ITERACOES; k++) m1 = executaAlgortimoAutomato(m1, mAux);
-				float qtdBons = calculaIndividuosBons(m1);
-				float modulo = (2*qtdBons/numIndividuos) - 1;
-				if (modulo <0) modulo = -modulo;
-				float apt = 1 - modulo;
-				pop[flag_Pop][i].aptidao += apt;
-			}
-			//Numero alto de bons
-			else if(j==2){
-
-				copiaMatriz(m2,mIndividuo);
-				iniciPMatriz(80,m2);
-				for (int k = 0; k<NUM_ITERACOES; k++) m2 = executaAlgortimoAutomato(m2, mAux);
-				float qtdBons = calculaIndividuosBons(m2);
-				float apt = qtdBons/numIndividuos;
-				pop[flag_Pop][i].aptidao += apt;
-			}
-
+			pop[flag_Pop][i].aptidao /= 3.0;
 		}
 	}
-	normalizaAptidao(pop);
 }
 
 void QuicksortDecrescente(individuo **populacao, long int esq, long int dir) {
@@ -238,12 +232,12 @@ void selecaoPopulacao(individuo **populacao, long int geracao) {
 
 void CrossOver(individuo **pop, int pai1,int pai2, int filho1, int filho2){
 
-		// Copia os vizinhos que ficam antes do ponto de corte.
-		pop[!flag_Pop][filho1].formula = pop[!flag_Pop][pai1].formula;
-		if(filho2 != -1) pop[!flag_Pop][filho2].formula = pop[!flag_Pop][pai2].formula;
+		// Copia a formula de um pai(1), e os vizinhos de outro pai pai(2).
+		pop[!flag_Pop][filho1].formula = pop[flag_Pop][pai1].formula;
+		if(filho2 != -1) pop[!flag_Pop][filho2].formula = pop[flag_Pop][pai2].formula;
 		for( int i =0 ; i < NUM_VIZINHOS ; i++){
-			pop[!flag_Pop][filho1].vizinhos[i] = pop[!flag_Pop][pai2].vizinhos[i];
-			if(filho2 != -1) pop[!flag_Pop][filho2].vizinhos[i] = pop[!flag_Pop][pai1].vizinhos[i];
+			pop[!flag_Pop][filho1].vizinhos[i] = pop[flag_Pop][pai2].vizinhos[i];
+			if(filho2 != -1) pop[!flag_Pop][filho2].vizinhos[i] = pop[flag_Pop][pai1].vizinhos[i];
 		}
 }
 		
@@ -251,19 +245,28 @@ void CrossOver(individuo **pop, int pai1,int pai2, int filho1, int filho2){
 	
 
 void Mutacao(individuo **pop, int filho){
-	int g, novo, mutacao, chance;
+	int g, novo, mutacao, chance, count;
 
 	mutacao=rand()%10;
+
 	chance=rand()%100;
 
 	g=rand()%NUM_VIZINHOS;
 
-	// 
+	for(int i = 0; i<NUM_VIZINHOS; i++) if(pop[!flag_Pop][filho].vizinhos[i] == 1) count++;
+
+	// Calcula a chance de ocorrer a mutacao
 	if(chance < 1){
 		if(mutacao <= 8){
 			// Sorteia o novo valor do vizinho, que deve ser diferente do atual.
 			do {
 				novo=rand()%2;
+				if(novo ==  0 && pop[!flag_Pop][filho].vizinhos[g] == 1 && count <= 3){
+					do{
+						novo = 1;
+						g = rand()%NUM_VIZINHOS;
+					}while(pop[!flag_Pop][filho].vizinhos[g] == 1);
+				}
 			} while (novo == pop[!flag_Pop][filho].vizinhos[g]);
 			
 			// Realiza a mutacao do vizinho.
@@ -286,6 +289,7 @@ void Mutacao(individuo **pop, int filho){
 void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2){
 
 	for(int i=0;i<NUM_GERACOES;i++){
+
 		//Calcula a aptidao da geracao atual
 		calculaAptidaoPopulacao(pop,maIndividuo,maAux,ma,ma1,ma2);
 
@@ -296,4 +300,12 @@ void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo
 
 	//Calcular a aptidao da ultima geracao
 	calculaAptidaoPopulacao(pop,maIndividuo,maAux,ma,ma1,ma2);
+
+/*
+	// Individuos para a simulacao
+	// Ordena a geracao
+	QuicksortDecrescente(pop,0,TAM_POP-1);
+	individuo melhorInd = pop[flag_Pop][0];
+	individuo piorInd =  pop[flag_Pop][TAM_POP-1];
+*/
 }

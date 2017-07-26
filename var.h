@@ -51,12 +51,12 @@ individuo **maIndividuo;
 
 //Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
 #define TAM_MATRIZ 10
-#define TAM_POP 40
+#define TAM_POP 50
 #define NUM_VIZINHOS 8
 #define NUM_ITERACOES 20
 #define NUM_GERACOES 10
 #define fator_L 5.00
-#define APTDINICIAL -1
+#define APTDINICIAL 0
 
 int iter=0,iter1=0,iter2=0;
 void init(void);
@@ -82,7 +82,6 @@ individuo **copiaAuxFinal(individuo **maAux, individuo **ma);
 individuo **copiaMatrizIndividuo(individuo **maIndividuo, individuo **ma);
 void criaLog(individuo **pop);
 void calculaAptidaoPopulacao(individuo **pop, individuo *mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
-void normalizaAptidao(individuo **pop);
 individuo **geraFormacaoIndividuo(individuo **pop);
 individuo **AlocMat(void);
 individuo **AlocaVet(void);
