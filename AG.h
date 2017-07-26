@@ -90,8 +90,8 @@ void calculaAptidaoPopulacao(individuo **pop, individuo **mIndividuo, individuo 
 				//Numero baixo de bons
 				if(j==0){
 
-					copiaMatriz(m,mIndividuo);
-					iniciPMatriz(20,m);
+					m = copiaMatriz(m,mIndividuo);
+					m = iniciPMatriz(20,m);
 					for (int k = 0; k<NUM_ITERACOES; k++) m = executaAlgortimoAutomato(m, mAux);
 					float qtdBons = calculaIndividuosBons(m);
 					float apt = (1-(qtdBons/numIndividuos));
@@ -100,8 +100,8 @@ void calculaAptidaoPopulacao(individuo **pop, individuo **mIndividuo, individuo 
 				//populacao bem dividida
 				else if(j==1){
 
-					copiaMatriz(m1,mIndividuo);
-					iniciPMatriz(50,m1);
+					m1 = copiaMatriz(m1,mIndividuo);
+					m1 = iniciPMatriz(50,m1);
 					for (int k = 0; k<NUM_ITERACOES; k++) m1 = executaAlgortimoAutomato(m1, mAux);
 					float qtdBons = calculaIndividuosBons(m1);
 					float modulo = (2*qtdBons/numIndividuos) - 1;
@@ -112,8 +112,8 @@ void calculaAptidaoPopulacao(individuo **pop, individuo **mIndividuo, individuo 
 				//Numero alto de bons
 				else if(j==2){
 
-					copiaMatriz(m2,mIndividuo);
-					iniciPMatriz(80,m2);
+					m2 = copiaMatriz(m2,mIndividuo);
+					m2 = iniciPMatriz(80,m2);
 					for (int k = 0; k<NUM_ITERACOES; k++) m2 = executaAlgortimoAutomato(m2, mAux);
 					float qtdBons = calculaIndividuosBons(m2);
 					float apt = qtdBons/numIndividuos;
@@ -194,9 +194,11 @@ void selecaoPopulacao(individuo **populacao, long int geracao) {
 	// Ate formar a nova geracao realiza a roleta.
 	while (aux_TamPop < TAM_POP) {
 		// Captura dois individuos na roleta com Normalizacao Linear.
-		ind1 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
-		ind2 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
-		
+		do{
+			ind1 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
+			ind2 = fncAG_SelecionaIndividuoPelaRoletaComNormalizacaoLinear(TAM_POP);
+		}while(ind1 == ind2);
+
 		// Crossover e Mutacao
 		if (aux_TamPop < (TAM_POP-1)) { // Se faltam 2 ou mais individuos para serem gerados.
 			// Realiza o crossover
@@ -301,11 +303,10 @@ void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo
 	//Calcular a aptidao da ultima geracao
 	calculaAptidaoPopulacao(pop,maIndividuo,maAux,ma,ma1,ma2);
 
-/*
+
 	// Individuos para a simulacao
 	// Ordena a geracao
 	QuicksortDecrescente(pop,0,TAM_POP-1);
-	individuo melhorInd = pop[flag_Pop][0];
-	individuo piorInd =  pop[flag_Pop][TAM_POP-1];
-*/
+	melhorInd = pop[flag_Pop][0];
+	piorInd =  pop[flag_Pop][TAM_POP-1];
 }

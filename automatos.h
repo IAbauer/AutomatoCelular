@@ -44,7 +44,7 @@ individuo **armazenaVizinhos(individuo **ma){
 
 							}
 						}
-						
+						/*
 						//Tratamento das bordas
 						if(l==-1){
 							if(c == -1) ma[i][j].vizinhosVal[k] = ma[TAM_MATRIZ-1][TAM_MATRIZ-1].valor;
@@ -56,6 +56,7 @@ individuo **armazenaVizinhos(individuo **ma){
 							if(c == 10) ma[i][j].vizinhosVal[k] = ma[0][0].valor;
 							else ma[i][j].vizinhosVal[k] = ma[0][c].valor;
 						}
+						*/
 					}
 				}
 			}

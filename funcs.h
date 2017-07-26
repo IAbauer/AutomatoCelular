@@ -5,12 +5,8 @@ void init()
     	glClearColor( 0, 0, 0, 0.0 );
 			//glClear( GL_COLOR_BUFFER_BIT );
     	//glMatrixMode( GL_PROJECTION );
-    	gluOrtho2D(0,1000,0,500 );
-    	//individuo **ma;
-    	//individuo **ma1;
-    	//individuo **ma2;
-    	//individuo **maAux;
-    	//individuo **maInicial;
+    	gluOrtho2D(0,1400,0,500 );
+    	
 }
 
 void display()
@@ -19,72 +15,12 @@ void display()
 	glClear( GL_COLOR_BUFFER_BIT );
 	keyOperations();
  	escreveTitulo();
- 	/*
- 	if (aloca==0){
-		ma = AlocMat();
-		ma1 = AlocMat();
-		ma2 = AlocMat();
-		maAux = AlocMat();
-		maInicial=AlocMat();
-		maIndividuo=AlocMat();
-		//Matriz principal que guarda a formacao dos individuos para as 3 iteracoes
-		maIndividuo = geraFormacaoIndividuo(maIndividuo);
- 		aloca=1;
- 	}
- 	if (f20==1){
- 		if(flag20==0){
- 			//Copia a formacao dos individuos da matriz maIndividuo
- 			ma = copiaMatrizIndividuo(maIndividuo,ma);
- 			//Inicia os valores dos individuos
- 			ma = iniciPMatriz(20,ma);
- 			maInicial = copiaMatriz(maInicial,ma);
- 			flag20=1;
- 		}
- 		if(iter<NUM_ITERACOES){
- 			ma = executaAlgortimoAutomato(ma,maAux);
- 			iter++;
- 		if(iter == 49) criaLog(ma,maIndividuo,nome);
- 		tituloIni(1);
- 		}
- 	}else if(f50==1){
- 		if(flag50==0){
- 			ma1 = copiaMatrizIndividuo(maIndividuo,ma1);
- 			ma1 = iniciPMatriz(50,ma1);
- 			maInicial = copiaMatriz(maInicial,ma1);
- 			flag50=1;
- 		}
- 		if(iter1<NUM_ITERACOES){
- 			ma1 = executaAlgortimoAutomato(ma1,maAux);
- 			iter1++;
- 		if(iter1 == 49) criaLog(ma1,maIndividuo,nome1);
- 		}
- 		tituloIni(2);
- 	}else if(f80==1){
- 		if(flag80==0){
- 			ma2 = copiaMatrizIndividuo(maIndividuo,ma2);
- 			ma2 = iniciPMatriz(80,ma2);
- 			maInicial = copiaMatriz(maInicial,ma2);
- 			flag80=1;
- 		}
- 		if(iter2<NUM_ITERACOES){
- 			ma2 = executaAlgortimoAutomato(ma2,maAux);
- 			iter2++;
- 		if(iter2 == 49) criaLog(ma2,maIndividuo,nome2);
- 		}
- 		tituloIni(3);
- 	}
- 	drawFirstM(maInicial);
+ 	drawFirstM(maInicial); 	
+ 	drawFirstM50(maInicial1);
+ 	drawFirstM80(maInicial2);
  	drawFinalM(ma);
  	drawFinalM50(ma1);
  	drawFinalM80(ma2);
- 	//if(teclas['a']==true)
-	
- 	//glPushMatrix();
-		//glTranslatef(, ,0 );
-		//drawQuads(1,1,1);
-	//glPopMatrix();
-	*/
-
     glFlush();
 }
 
@@ -96,17 +32,18 @@ void keyUp (unsigned char key, int x, int y){
 
 }
 void keyOperations(){
+	 if(teclas['0']==true){
+ 		glutTimerFunc(150,Timer,0);
+ 	}
  	if(teclas['1']==true){
- 		f20=1;
+ 		glutTimerFunc(150,Timer,1);
  	}
  	if(teclas['2']==true){
- 		f20=0;
- 		f50=1;
+ 		glutTimerFunc(150,Timer,2);;
  	}
- 	if(teclas['3']==true){
- 		f50=0;
- 		f80=1;
- 	} 		
+ 	if(teclas['9']==true){
+ 		glutTimerFunc(150,Timer,3);;
+ 	}	
  	glutPostRedisplay();
 
 }
@@ -115,16 +52,16 @@ void keyOperations(){
 void escreveTitulo(void){
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(220,440,0);
-		glScalef(0.4, 0.4, 0.3); // diminui o tamanho do fonte
+		glTranslatef(270,440,0);
+		glScalef(0.6, 0.4, 0.3); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,titulo);
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(320,385,0);
-		glScalef(0.12, 0.12, 0.09); // diminui o tamanho do fonte
+		glTranslatef(370,385,0);
+		glScalef(0.2, 0.12, 0.09); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,by);
@@ -155,7 +92,7 @@ void escreveTitulo(void){
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(40,330,0);
+		glTranslatef(40,300,0);
 		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
@@ -163,32 +100,66 @@ void escreveTitulo(void){
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(290,330,0);
-		glScalef(0.53, 0.13, 0.13); // diminui o tamanho do fonte
+		glTranslatef(500,300,0);
+		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,ini);
+	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(970,300,0);
+		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,ini);
+	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(250,300,0);
+		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,final);
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(310,90,0);
-		glScalef(0.1, 0.1, 0.1); // diminui o tamanho do fonte
+		glTranslatef(720,300,0);
+		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,final);
+	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(1185,300,0);
+		glScalef(0.13, 0.13, 0.13); // diminui o tamanho do fonte
+		//glRotatef(15, 0,0,1); // rotaciona o texto
+		glLineWidth(2); // define a espessura da linha
+		DesenhaTextoStroke(GLUT_STROKE_ROMAN,final);
+	glPopMatrix();
+	glPushMatrix();	
+		glColor3f(1,1,1);
+		glTranslatef(90,90,0);
+		glScalef(0.2, 0.1, 0.1); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p20);
 	glPopMatrix();
+
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(560,90,0);
-		glScalef(0.1, 0.1, 0.1); // diminui o tamanho do fonte
+		glTranslatef(550,90,0);
+		glScalef(0.2, 0.1, 0.1); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p50);
 	glPopMatrix();
+	
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(815,90,0);
-		glScalef(0.1, 0.1, 0.1); // diminui o tamanho do fonte
+		glTranslatef(1025,90,0);
+		glScalef(0.2, 0.1, 0.1); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
 		DesenhaTextoStroke(GLUT_STROKE_ROMAN,p80);
@@ -347,10 +318,44 @@ void drawFirstM (individuo **maInicial){
     	posx=22;
     }		
 }
+void drawFirstM50 (individuo **maInicial){
+	int i,j,posx=480,posy=100,random=0;
+    for(i=0;i<10;i++){
+    	posy+=18;
+    	for(j=0;j<10;j++){
+    			posx+=18;
+    			if(maInicial[i][j].valor==2)
+    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
+    			else if(maInicial[i][j].valor==0)
+    				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
+    			else if(maInicial[i][j].valor==1)
+    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
+
+    	}
+    	posx=480;
+    }		
+}
+void drawFirstM80 (individuo **maInicial){
+	int i,j,posx=950,posy=100,random=0;
+    for(i=0;i<10;i++){
+    	posy+=18;
+    	for(j=0;j<10;j++){
+    			posx+=18;
+    			if(maInicial[i][j].valor==2)
+    				desenhaCirculo(posx, posy, 360, 3, 0.3,1, 0.3);
+    			else if(maInicial[i][j].valor==0)
+    				desenhaCirculo(posx, posy, 360, 3, 1,0.3, 0.3);
+    			else if(maInicial[i][j].valor==1)
+    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
+
+    	}
+    	posx=950;
+    }		
+}
 // por enquanto essa aqui ta igual a inicial, mas a ideia é fazer a a evolucao da populacao nessa, e deixar a outra
 // como comparacao.
 void drawFinalM (individuo **ma){
-	int i,j,posx=270,posy=100;
+	int i,j,posx=230,posy=100;
   
 	    for(i=0;i<10;i++){
 	    	posy+=18;
@@ -364,11 +369,11 @@ void drawFinalM (individuo **ma){
 	    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
 	    	}
-	    	posx=270;
+	    	posx=230;
 	    }	  
 }
 void drawFinalM50 (individuo **ma1){
- int posx=520,posy=100;	
+ int posx=700,posy=100;	
 	    for(int i=0;i<10;i++){
 	    	posy+=18;
 	    	for(int j=0;j<10;j++){
@@ -381,11 +386,11 @@ void drawFinalM50 (individuo **ma1){
 	    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
 	    	}
-	    	posx=520;
+	    	posx=700;
 	    }
 }
 void drawFinalM80 (individuo **ma2){
- int posx=770; 
+ int posx=1170; 
  int posy=100;
 	    for(int i=0;i<10;i++){
 	    	posy+=18;
@@ -399,6 +404,66 @@ void drawFinalM80 (individuo **ma2){
 	    				desenhaCirculo(posx, posy, 360, 3, 1,1, 1);
 
 	    	}
-	    	posx=770;
+	    	posx=1170;
 	    }
+}
+int pPior=0,pMelhor=0;
+void Timer(int value)
+{
+	if(value == 0){
+		pPior = 0;
+	}
+	if(value == 3) pMelhor = 0;	
+	else if(value == 1){
+		//desenha o automato celular do pior individuo
+		if(pPior==0){
+			maIndividuoInicial = geraMatrizIndividuo(maIndividuoInicial, piorInd);
+
+			maInicial = copiaMatriz(maInicial,maIndividuoInicial);
+			maInicial = iniciPMatriz(20,maInicial);
+			ma = copiaMatriz(ma,maInicial);
+
+			maInicial1 = copiaMatriz(maInicial1,maIndividuoInicial);
+			maInicial1 = iniciPMatriz(50,maInicial1);
+			ma1 = copiaMatriz(ma1,maInicial1);
+
+			maInicial2 = copiaMatriz(maInicial2,maIndividuoInicial);
+			maInicial2 = iniciPMatriz(80,maInicial2);
+			ma2 = copiaMatriz(ma2,maInicial2);
+
+			pPior=1;
+
+		}
+
+		ma = executaAlgortimoAutomato(ma,maAux);
+		ma1 = executaAlgortimoAutomato(ma1,maAux1);
+		ma2 = executaAlgortimoAutomato(ma2,maAux2);
+		glutTimerFunc(100,Timer, 1);
+	}
+	else if(value == 2){
+		//desenha o automato celular do melhor individuo
+		if(pMelhor==0){
+			maIndividuoInicial = geraMatrizIndividuo(maIndividuoInicial, melhorInd);
+
+			maInicial = copiaMatriz(maInicial,maIndividuoInicial);
+			maInicial = iniciPMatriz(20,maInicial);
+			ma = copiaMatriz(ma,maInicial);
+
+			maInicial1 = copiaMatriz(maInicial1,maIndividuoInicial);
+			maInicial1 = iniciPMatriz(50,maInicial1);
+			ma1 = copiaMatriz(ma1,maInicial1);
+
+
+			maInicial2 = copiaMatriz(maInicial2,maIndividuoInicial);
+			maInicial2 = iniciPMatriz(80,maInicial2);
+			ma2 = copiaMatriz(ma2,maInicial2);
+
+			pMelhor=1;
+		}
+		ma = executaAlgortimoAutomato(ma,maAux);
+		ma1 = executaAlgortimoAutomato(ma1,maAux1);
+		ma2 = executaAlgortimoAutomato(ma2,maAux2);
+		glutTimerFunc(100,Timer, 2);
+	}
+	glutPostRedisplay();
 }

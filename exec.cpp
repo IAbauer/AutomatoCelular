@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {		
-		srand(time(NULL));
+	srand(time(NULL));
 
     ma = AlocMat();
     ma1 = AlocMat();
@@ -16,13 +16,18 @@ int main(int argc, char *argv[])
     maInicial=AlocMat();
     maIndividuo=AlocMat();
     individuo **pop = AlocaVet();
+    maAux1 = AlocMat();
+    maAux2 = AlocMat();
+    maInicial1 = AlocMat();
+    maInicial2 =AlocMat();
+    maIndividuoInicial =AlocMat();
     //Cria a populacao inicial
     pop = geraFormacaoIndividuo(pop);
-
 
     executaAlgoritmoGenetico(pop,maIndividuo,maAux,ma,ma1,ma2);
 
     criaLog(pop);
+
 
  ////OPENGL FUNCS 
     glutInit( &argc, argv );

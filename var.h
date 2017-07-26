@@ -9,11 +9,19 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define TAM_MATRIZ 10
+#define TAM_POP 50
+#define NUM_VIZINHOS 7
+#define NUM_ITERACOES 20
+#define NUM_GERACOES 10
+#define fator_L 5.00
+#define APTDINICIAL 0
+
 typedef struct Individuo{
 	float valor;
 	int formula;
-	int vizinhos[8];
-    int vizinhosVal[8];
+	int vizinhos[NUM_VIZINHOS];
+    int vizinhosVal[NUM_VIZINHOS];
     float aptidao;
     int geracao;
 }individuo;
@@ -41,8 +49,16 @@ individuo **ma;
 individuo **ma1;
 individuo **ma2;
 individuo **maAux;
+individuo **maAux1;
+individuo **maAux2;
 individuo **maInicial;
+individuo **maInicial1;
+individuo **maInicial2;
 individuo **maIndividuo;
+individuo **maIndividuoInicial;
+
+individuo melhorInd;
+individuo piorInd;
 
 //Matriz Original que será mostrada graficamente no OpenGL, deixar apenas essa ser global (e futuramente a maFinal)
 //individuo **maInicial;
@@ -50,13 +66,7 @@ individuo **maIndividuo;
 //indiviuo populacao[10][10];
 
 //Inves de passar linha e coluna como parametros, defini um variavel correspondente para as duas, ja que a matriz h sempre quadrada
-#define TAM_MATRIZ 10
-#define TAM_POP 50
-#define NUM_VIZINHOS 8
-#define NUM_ITERACOES 20
-#define NUM_GERACOES 10
-#define fator_L 5.00
-#define APTDINICIAL 0
+
 
 int iter=0,iter1=0,iter2=0;
 void init(void);
@@ -70,6 +80,8 @@ void desenhaCirculo(GLint x, GLint y, int linhas, int raio, float r, float g, fl
 void DesenhaTextoStroke(void *font, char *string) ;
 individuo **iniciPMatriz(int n,individuo **ma);
 void drawFirstM (individuo **maInicial);
+void drawFirstM50 (individuo **maInicial);
+void drawFirstM80(individuo **maInicial);
 void drawFinalM (individuo **ma);
 void drawFinalM50 (individuo **ma1);
 void drawFinalM80 (individuo **ma2);
@@ -85,7 +97,7 @@ void calculaAptidaoPopulacao(individuo **pop, individuo *mIndividuo, individuo *
 individuo **geraFormacaoIndividuo(individuo **pop);
 individuo **AlocMat(void);
 individuo **AlocaVet(void);
-int **FreeMat(int **mat);
+void **FreeMat(int **mat);
 void executaAlgoritmoGenetico(individuo **pop, individuo **mIndividuo, individuo **mAux, individuo **m, individuo **m1, individuo **m2);
 void Mutacao(individuo **pop, int filho);
 void CrossOver(individuo **pop, int pai1,int pai2, int filho1, int filho2);
@@ -95,3 +107,5 @@ double fncAleatorios_AleatorioRealEntre_0_e_1();
 long int fncAleatorios_AleatorioInteiro(long int low, long int high);
 double fncAleatorios_AleatorioReal(double lo , double hi);
 void QuicksortDecrescente(individuo **populacao, long int esq, long int dir);
+void Timer(int value);
+individuo **geraMatrizIndividuo(individuo **ma, individuo pop);
