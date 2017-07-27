@@ -428,8 +428,15 @@ void Timer(int value)
 {
 	if(value == 0){
 		pPior = 0;
+		it1 = 0;
+		glutTimerFunc(100,Timer, 1);
 	}
-	if(value == 3) pMelhor = 0;	
+	if(value == 3){
+		pMelhor = 0;	
+		it2 = 0;
+		glutTimerFunc(100,Timer, 2);
+	}
+
 	else if(value == 1){
 		//desenha o automato celular do pior individuo
 		if(pPior==0){
