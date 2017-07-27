@@ -8,6 +8,12 @@
 int main(int argc, char *argv[])
 {		
 	srand(time(NULL));
+    printf("\n");
+    printf("-                     Simulador de Autômato Celular                      -\n");
+    printf("--------------------------------------------------------------------------\n");
+    printf("- Teclas 1 e 2 iniciam a simulação do Pior e do Melhor Respectivamente   -\n");
+    printf("- Teclas 3 e 4 reiniciam a simulação do Pior e do Melhor Respectivamente -\n");
+    printf("--------------------------------------------------------------------------\n");
 
     ma = AlocMat();
     ma1 = AlocMat();

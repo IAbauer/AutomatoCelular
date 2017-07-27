@@ -12,7 +12,7 @@
 #define TAM_MATRIZ 10
 #define TAM_POP 50
 #define NUM_VIZINHOS 7
-#define NUM_ITERACOES 20
+#define NUM_ITERACOES 25
 #define NUM_GERACOES 10
 #define fator_L 5.00
 #define APTDINICIAL 0
@@ -27,9 +27,10 @@ typedef struct Individuo{
 }individuo;
 
 int flag_Pop = 0;
+int zera =0;
 //int x,y;
 char ruim[]="RUIM";
-char influ[]="INFLUENCIAVEL";
+char influ[]="NEUTRO";
 char bom[]="BOM";
 char ini[]="POPULACAO INICIAL";
 char final[]="POPULACAO FINAL";
@@ -43,6 +44,7 @@ char nome1[]="aptidaoIndividuosP50.txt";
 char nome2[]="aptidaoIndividuosP80.txt";
 int n,f20=0,f50=0,f80=0,flag20=0,flag50=0,flag80=0,aloca=0;
 bool teclas[256];
+int it1 = 0,it2 = 0;
 
 //Matrizes para realizar as iterações, sugiro que nao sejam globais
 individuo **ma;
@@ -109,3 +111,4 @@ double fncAleatorios_AleatorioReal(double lo , double hi);
 void QuicksortDecrescente(individuo **populacao, long int esq, long int dir);
 void Timer(int value);
 individuo **geraMatrizIndividuo(individuo **ma, individuo pop);
+individuo **zeraMatriz(individuo **mt);

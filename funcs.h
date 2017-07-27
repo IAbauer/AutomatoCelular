@@ -14,6 +14,15 @@ void display()
 
 	glClear( GL_COLOR_BUFFER_BIT );
 	keyOperations();
+	if (zera==0){
+		ma = zeraMatriz(ma);
+		ma1 = zeraMatriz(ma1);
+		ma2 = zeraMatriz(ma2);
+		maInicial = zeraMatriz(maInicial);
+		maInicial1 = zeraMatriz(maInicial1); 
+		maInicial2 = zeraMatriz(maInicial2);
+		zera=1;
+	}
  	escreveTitulo();
  	drawFirstM(maInicial); 	
  	drawFirstM50(maInicial1);
@@ -32,7 +41,7 @@ void keyUp (unsigned char key, int x, int y){
 
 }
 void keyOperations(){
-	 if(teclas['0']==true){
+	 if(teclas['3']==true){
  		glutTimerFunc(150,Timer,0);
  	}
  	if(teclas['1']==true){
@@ -41,7 +50,7 @@ void keyOperations(){
  	if(teclas['2']==true){
  		glutTimerFunc(150,Timer,2);;
  	}
- 	if(teclas['9']==true){
+ 	if(teclas['4']==true){
  		glutTimerFunc(150,Timer,3);;
  	}	
  	glutPostRedisplay();
@@ -76,7 +85,7 @@ void escreveTitulo(void){
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(1,1,1);
-		glTranslatef(430,20,0);
+		glTranslatef(650,20,0);
 		glScalef(0.16, 0.16, 0.16); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
@@ -84,7 +93,7 @@ void escreveTitulo(void){
 	glPopMatrix();
 	glPushMatrix();	
 		glColor3f(0,1,0);
-		glTranslatef(930,20,0);
+		glTranslatef(1330,20,0);
 		glScalef(0.16, 0.16, 0.16); // diminui o tamanho do fonte
 		//glRotatef(15, 0,0,1); // rotaciona o texto
 		glLineWidth(2); // define a espessura da linha
@@ -215,6 +224,13 @@ void DesenhaTextoStroke(void *font, char *string)
 	// Exibe caractere a caractere
 	while(*string)
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,*string++); 
+}
+individuo **zeraMatriz(individuo **mt){
+	int i,j;
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++)
+			mt[i][j].valor=0;
+	return mt;
 }
 //onde a matriz inicial é feita atravez do "random", o parametro N é a porcentagem de inimigos bons na populacao
 individuo **iniciPMatriz(int n,individuo **ma){
@@ -438,7 +454,10 @@ void Timer(int value)
 		ma = executaAlgortimoAutomato(ma,maAux);
 		ma1 = executaAlgortimoAutomato(ma1,maAux1);
 		ma2 = executaAlgortimoAutomato(ma2,maAux2);
-		glutTimerFunc(100,Timer, 1);
+		if( it1<=NUM_ITERACOES){
+			glutTimerFunc(100,Timer, 1);
+			it1++;
+		}
 	}
 	else if(value == 2){
 		//desenha o automato celular do melhor individuo
@@ -463,7 +482,10 @@ void Timer(int value)
 		ma = executaAlgortimoAutomato(ma,maAux);
 		ma1 = executaAlgortimoAutomato(ma1,maAux1);
 		ma2 = executaAlgortimoAutomato(ma2,maAux2);
-		glutTimerFunc(100,Timer, 2);
+		if( it2<=NUM_ITERACOES){
+			glutTimerFunc(100,Timer, 2);
+			it2++;
+		}
 	}
 	glutPostRedisplay();
 }
